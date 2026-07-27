@@ -7,8 +7,8 @@ saves an un-tokenized processed CSV file for downstream analysis.
 
 from __future__ import annotations
 
-import logging
 import json
+import logging
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any

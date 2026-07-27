@@ -4,6 +4,11 @@ dataset:
   name: UTAustin-AIHealth/MedHallu
   subset: pqa_labeled
   split: train
+  split_names:
+    - train
+    - validation
+    - test
+  split_column:
   raw_data_dir: data/raw
   processed_data_dir: data/processed
   processed_file_name: medhallu_pqa_labeled_train.csv
@@ -20,6 +25,7 @@ dataset:
     - Hallucinated Answer
   label_column: Difficulty Level
   hallucination_type_column: Category of Hallucination
+  evidence_column: Knowledge
 
 models:
   baseline: roberta-base
@@ -43,9 +49,32 @@ paths:
   model_dir: models
   logs_dir: outputs/logs
   dataset_report: outputs/dataset_report.md
+  dataset_quality_report: outputs/dataset_quality_report.md
+  dataset_statistics_json: outputs/dataset_statistics.json
+  dataset_statistics_csv: outputs/dataset_statistics.csv
+  tables_dir: outputs/tables
+  dataset_summary_tex: outputs/tables/dataset_summary.tex
   checkpoints_dir: outputs/checkpoints
   metrics_dir: outputs/metrics
   figures_dir: outputs/figures
+
+eda:
+  figure_dpi: 300
+  histogram_bins: 30
+  vocabulary_lowercase: true
+  vocabulary_columns:
+    - Question
+    - Ground Truth
+    - Hallucinated Answer
+    - Knowledge
+  semantic_duplicates:
+    enabled: true
+    model_name: sentence-transformers/all-MiniLM-L6-v2
+    text_column: Question
+    cosine_threshold: 0.9
+    max_examples: 10
+    batch_size: 32
+    show_progress_bar: false
 
 logging:
   level: INFO
