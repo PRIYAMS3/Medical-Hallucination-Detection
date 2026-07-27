@@ -1,0 +1,73 @@
+{
+  "Incomplete Information": {
+    "precision": 1.0,
+    "recall": 0.34146341463414637,
+    "f1-score": 0.5090909090909091,
+    "support": 82.0
+  },
+  "Mechanism and Pathway Misattribution": {
+    "precision": 1.0,
+    "recall": 0.6666666666666666,
+    "f1-score": 0.8,
+    "support": 12.0
+  },
+  "Methodological and Evidence Fabrication": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 2.0
+  },
+  "Misinterpretation of #Question#": {
+    "precision": 0.8209876543209876,
+    "recall": 1.0,
+    "f1-score": 0.9016949152542372,
+    "support": 266.0
+  },
+  "accuracy": 0.8397790055248618,
+  "macro avg": {
+    "precision": 0.9552469135802469,
+    "recall": 0.7520325203252032,
+    "f1-score": 0.8026964560862866,
+    "support": 362.0
+  },
+  "weighted avg": {
+    "precision": 0.8684605415728803,
+    "recall": 0.8397790055248618,
+    "f1-score": 0.8099345359201151,
+    "support": 362.0
+  },
+  "labels": [
+    "Incomplete Information",
+    "Mechanism and Pathway Misattribution",
+    "Methodological and Evidence Fabrication",
+    "Misinterpretation of #Question#"
+  ],
+  "confusion_matrix": [
+    [
+      28,
+      0,
+      0,
+      54
+    ],
+    [
+      0,
+      8,
+      0,
+      4
+    ],
+    [
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      266
+    ]
+  ],
+  "train_size": 1444,
+  "test_size": 362
+}

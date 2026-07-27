@@ -1,0 +1,23 @@
+
+2026-03-28 11:14:14,367 | INFO | Starting training run.
+2026-03-28 11:15:10,911 | INFO | Starting training run.
+2026-03-28 11:55:30,964 | INFO | Regression model random_forest_regressor | RMSE=9.9430 | MAPE=435.3285
+2026-03-28 11:55:44,111 | INFO | Regression model xgboost_regressor | RMSE=10.2962 | MAPE=512.7423
+2026-03-28 11:56:01,598 | INFO | Classification model logistic_regression | ACC=0.9787
+2026-03-28 11:57:49,190 | INFO | Classification model random_forest_classifier | ACC=0.9788
+2026-03-28 11:58:04,246 | INFO | Classification model xgboost_classifier | ACC=0.9794
+2026-03-28 14:31:05,583 | INFO | Starting training run.
+2026-03-28 14:43:58,568 | INFO | Starting training run.
+2026-03-28 14:49:21,477 | INFO | Training complete. Best regression=random_forest_regressor, best classification=xgboost_classifier
+2026-03-28 15:13:26,108 | INFO | Regression model random_forest_regressor | RMSE=9.9556 | MAPE=434.6077
+2026-03-28 15:13:45,681 | INFO | Regression model xgboost_regressor | RMSE=10.3054 | MAPE=508.2800
+2026-03-28 15:14:04,690 | INFO | Classification model logistic_regression | ACC=0.9787
+2026-03-28 15:16:14,700 | INFO | Classification model random_forest_classifier | ACC=0.9788
+2026-03-28 15:16:32,939 | INFO | Classification model xgboost_classifier | ACC=0.9794
+2026-03-28 15:30:09,189 | INFO | Regression model random_forest_regressor | RMSE=9.9556 | MAPE=434.6077
+2026-03-28 15:30:33,335 | INFO | Regression model xgboost_regressor | RMSE=10.3054 | MAPE=508.2800
+2026-03-28 15:31:10,952 | INFO | Classification model logistic_regression | ACC=0.9787
+2026-03-28 16:06:28,975 | INFO | Classification model random_forest_classifier | ACC=0.9788
+2026-03-28 16:06:40,689 | INFO | Classification model xgboost_classifier | ACC=0.9794
+2026-03-29 07:08:06,599 | INFO | Training complete. Best regression=random_forest_regressor, best classification=xgboost_classifier
+2026-03-29 07:26:58,369 | INFO | Training complete. Best regression=random_forest_regressor, best classification=xgboost_classifier

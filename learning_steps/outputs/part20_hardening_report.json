@@ -1,0 +1,17 @@
+{
+  "passed_all": true,
+  "checks": [
+    {
+      "name": "api_self_test",
+      "return_code": 0,
+      "passed": true,
+      "output_snippet": "{\n  \"ensemble\": {\n    \"mode\": \"ensemble\",\n    \"prediction_label\": 0,\n    \"prediction_text\": \"Legitimate\",\n    \"prob_positive_class\": 1e-06,\n    \"confidence\": 0.999999,\n    \"decision_type\": \"model_only\",\n    \"rules_triggered\": [\n      \"Invalid SSL\"\n    ]\n  },\n  \"hybrid\": {\n    \"mode\": \"hybrid\",\n    \"prediction_label\": 0,\n    \"prediction_text\": \"Legitimate\",\n    \"prob_positive_class\": 1e-06,\n    \"confidence\": 0.999999,\n    \"decision_type\": \"model_only\",\n    \"rules_triggered\": [\n      \"Invalid SSL\"\n    ]\n  }\n}\n"
+    },
+    {
+      "name": "api_unit_tests",
+      "return_code": 0,
+      "passed": true,
+      "output_snippet": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.182s\n\nOK\n"
+    }
+  ]
+}

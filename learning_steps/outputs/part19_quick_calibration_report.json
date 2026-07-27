@@ -1,0 +1,37 @@
+{
+  "dataset": "C:\\Users\\PRIYAMVADA NAMBIAR\\Downloads\\output.csv",
+  "splits": {
+    "train": 7075,
+    "calibration": 1769,
+    "test": 2211
+  },
+  "uncalibrated_ensemble": {
+    "accuracy": 0.968340117593849,
+    "precision": 0.9640287769784173,
+    "recall": 0.9796913078797725,
+    "f1_score": 0.9717969379532636,
+    "roc_auc": 0.9957873970059185,
+    "brier": 0.02459335357730617
+  },
+  "platt_calibrated": {
+    "accuracy": 0.968340117593849,
+    "precision": 0.9640287769784173,
+    "recall": 0.9796913078797725,
+    "f1_score": 0.9717969379532636,
+    "roc_auc": 0.9957873970059186,
+    "brier": 0.025498815242847472
+  },
+  "isotonic_calibrated": {
+    "accuracy": 0.968340117593849,
+    "precision": 0.9640287769784173,
+    "recall": 0.9796913078797725,
+    "f1_score": 0.9717969379532636,
+    "roc_auc": 0.9955208972297287,
+    "brier": 0.024565008780768262
+  },
+  "best_by_brier": "isotonic_calibrated",
+  "notes": [
+    "Calibration mainly improves probability quality (Brier), not always classification F1.",
+    "Use calibrated probabilities for threshold tuning and risk-aware hybrid decisions."
+  ]
+}

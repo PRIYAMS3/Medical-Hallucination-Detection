@@ -1,0 +1,42 @@
+{
+  "dataset_path": "C:\\Users\\PRIYAMVADA NAMBIAR\\Downloads\\output.csv",
+  "train_shape": [
+    8844,
+    30
+  ],
+  "test_shape": [
+    2211,
+    30
+  ],
+  "model": "SimpleANN_MLPClassifier",
+  "hyperparameters": {
+    "hidden_layer_sizes": [
+      64,
+      32
+    ],
+    "batch_size": 64,
+    "learning_rate_init": 0.001,
+    "max_iter": 200,
+    "early_stopping": true
+  },
+  "metrics": {
+    "accuracy": 0.9629127091813658,
+    "precision": 0.9484777517564403,
+    "recall": 0.9870024370430545,
+    "f1_score": 0.9673566878980892,
+    "roc_auc": 0.9950463369750825,
+    "confusion_matrix": [
+      [
+        914,
+        66
+      ],
+      [
+        16,
+        1215
+      ]
+    ],
+    "iterations_used": 41,
+    "final_loss": 0.053758653334465625
+  },
+  "classification_report_text": "              precision    recall  f1-score   support\n\n           0     0.9828    0.9327    0.9571       980\n           1     0.9485    0.9870    0.9674      1231\n\n    accuracy                         0.9629      2211\n   macro avg     0.9656    0.9598    0.9622      2211\nweighted avg     0.9637    0.9629    0.9628      2211\n"
+}

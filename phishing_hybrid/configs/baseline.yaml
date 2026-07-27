@@ -1,0 +1,55 @@
+paths:
+  dataset_path: "C:/Users/PRIYAMVADA NAMBIAR/Downloads/output.csv"
+  output_root: "outputs"
+
+dataset:
+  target_column: "Result"
+  test_size: 0.2
+  random_seed: 42
+  fillna_value: 0.0
+
+training:
+  batch_size: 64
+  epochs: 20
+  learning_rate: 0.001
+  weight_decay: 0.0
+  use_class_weights: true
+  device: "auto"
+
+experiment:
+  models:
+    - "simple_ann"
+    - "deep_ann"
+    - "dropout_ann"
+    - "residual_mlp"
+    - "wide_deep"
+    - "cnn_1d"
+    - "attention"
+  ensemble_models:
+    - "simple_ann"
+    - "deep_ann"
+    - "residual_mlp"
+
+hybrid:
+  threshold: 0.8
+  rules:
+    - feature: "having_IP_Address"
+      op: "=="
+      value: 1
+      reason: "IP address used"
+    - feature: "SSLfinal_State"
+      op: "=="
+      value: -1
+      reason: "Invalid SSL"
+    - feature: "URL_of_Anchor"
+      op: "=="
+      value: 1
+      reason: "Suspicious anchor URLs"
+    - feature: "Prefix_Suffix"
+      op: "=="
+      value: 1
+      reason: "Hyphen in domain"
+
+explainability:
+  background_size: 100
+  explain_size: 50

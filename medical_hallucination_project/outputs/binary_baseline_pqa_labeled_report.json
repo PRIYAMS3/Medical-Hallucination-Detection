@@ -1,0 +1,27 @@
+{
+  "hallucinated": {
+    "precision": 0.15625,
+    "recall": 0.15,
+    "f1-score": 0.1530612244897959,
+    "support": 200.0
+  },
+  "not_hallucinated": {
+    "precision": 0.18269230769230768,
+    "recall": 0.19,
+    "f1-score": 0.18627450980392157,
+    "support": 200.0
+  },
+  "accuracy": 0.17,
+  "macro avg": {
+    "precision": 0.16947115384615385,
+    "recall": 0.16999999999999998,
+    "f1-score": 0.16966786714685872,
+    "support": 400.0
+  },
+  "weighted avg": {
+    "precision": 0.16947115384615383,
+    "recall": 0.17,
+    "f1-score": 0.16966786714685875,
+    "support": 400.0
+  }
+}

@@ -1,0 +1,41 @@
+project:
+  name: "Dental Caries Classification - DENTEX"
+  random_seed: 42
+  num_classes: 2
+  class_names: ["non_caries", "caries_or_deep_caries"]
+
+paths:
+  manifest_csv: "data/dentex/manifest.csv"
+  output_dir: "models/dental_caries"
+  logs_dir: "logs/dental_caries"
+  best_model_path: "models/dental_caries/best_model.pt"
+  metrics_json: "logs/dental_caries/test_metrics.json"
+  gradcam_dir: "logs/dental_caries/gradcam"
+
+data:
+  image_size: 224
+  num_workers: 2
+  train_batch_size: 16
+  eval_batch_size: 32
+  grayscale_to_rgb: true
+
+augmentation:
+  horizontal_flip_p: 0.5
+  rotation_degrees: 10
+  brightness: 0.15
+  contrast: 0.15
+  zoom_scale_min: 0.9
+  zoom_scale_max: 1.1
+
+training:
+  model_name: "efficientnet_b0_cbam"   # resnet50 | efficientnet_b0 | efficientnet_b0_cbam
+  pretrained: true
+  epochs: 20
+  lr: 0.0001
+  weight_decay: 0.0001
+  focal_gamma: 2.0
+  use_focal_loss: false
+  early_stopping_patience: 5
+
+evaluation:
+  threshold: 0.5

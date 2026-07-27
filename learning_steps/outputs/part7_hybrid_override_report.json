@@ -1,0 +1,141 @@
+{
+  "dataset_path": "C:\\Users\\PRIYAMVADA NAMBIAR\\Downloads\\output.csv",
+  "model": "part4_deep_ann_with_hybrid_override",
+  "threshold": 0.8,
+  "baseline_metrics": {
+    "accuracy": 0.9733152419719584,
+    "precision": 0.9621451104100947,
+    "recall": 0.9910641754670999,
+    "f1_score": 0.9763905562224889,
+    "roc_auc": 0.9960393905734511,
+    "confusion_matrix": [
+      [
+        932,
+        48
+      ],
+      [
+        11,
+        1220
+      ]
+    ]
+  },
+  "hybrid_metrics": {
+    "accuracy": 0.9615558570782451,
+    "precision": 0.9387442572741195,
+    "recall": 0.9959382615759546,
+    "f1_score": 0.966495861253449,
+    "roc_auc": 0.9960393905734511,
+    "confusion_matrix": [
+      [
+        900,
+        80
+      ],
+      [
+        5,
+        1226
+      ]
+    ]
+  },
+  "delta_hybrid_minus_baseline": {
+    "accuracy": -0.01175938489371331,
+    "precision": -0.023400853135975175,
+    "recall": 0.004874086108854647,
+    "f1_score": -0.009894694969039941,
+    "roc_auc": 0.0
+  },
+  "overrides_applied": 38,
+  "rule_trigger_counts_for_overrides": {
+    "IP address used": 32,
+    "Invalid SSL": 23,
+    "Suspicious anchor URLs": 1
+  },
+  "override_examples": [
+    {
+      "test_index": 9,
+      "original_pred": 0,
+      "new_pred": 1,
+      "true_label": 0,
+      "confidence": 0.5767,
+      "rules_triggered": [
+        "IP address used",
+        "Invalid SSL",
+        "Suspicious anchor URLs"
+      ]
+    },
+    {
+      "test_index": 23,
+      "original_pred": 0,
+      "new_pred": 1,
+      "true_label": 1,
+      "confidence": 0.7634,
+      "rules_triggered": [
+        "IP address used",
+        "Invalid SSL"
+      ]
+    },
+    {
+      "test_index": 62,
+      "original_pred": 0,
+      "new_pred": 1,
+      "true_label": 0,
+      "confidence": 0.57,
+      "rules_triggered": [
+        "Invalid SSL"
+      ]
+    },
+    {
+      "test_index": 93,
+      "original_pred": 0,
+      "new_pred": 1,
+      "true_label": 0,
+      "confidence": 0.5826,
+      "rules_triggered": [
+        "IP address used",
+        "Invalid SSL"
+      ]
+    },
+    {
+      "test_index": 116,
+      "original_pred": 0,
+      "new_pred": 1,
+      "true_label": 0,
+      "confidence": 0.7354,
+      "rules_triggered": [
+        "IP address used",
+        "Invalid SSL"
+      ]
+    },
+    {
+      "test_index": 161,
+      "original_pred": 0,
+      "new_pred": 1,
+      "true_label": 0,
+      "confidence": 0.7747,
+      "rules_triggered": [
+        "IP address used",
+        "Invalid SSL"
+      ]
+    },
+    {
+      "test_index": 270,
+      "original_pred": 0,
+      "new_pred": 1,
+      "true_label": 0,
+      "confidence": 0.7751,
+      "rules_triggered": [
+        "IP address used"
+      ]
+    },
+    {
+      "test_index": 481,
+      "original_pred": 0,
+      "new_pred": 1,
+      "true_label": 0,
+      "confidence": 0.529,
+      "rules_triggered": [
+        "IP address used",
+        "Invalid SSL"
+      ]
+    }
+  ]
+}

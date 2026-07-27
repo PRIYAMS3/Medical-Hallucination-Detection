@@ -1,0 +1,40 @@
+{
+  "dataset_path": "C:\\Users\\PRIYAMVADA NAMBIAR\\Downloads\\output.csv",
+  "shape_before": [
+    11055,
+    31
+  ],
+  "target_unique_before": [
+    -1,
+    1
+  ],
+  "shape_features": [
+    11055,
+    30
+  ],
+  "shape_target": 11055,
+  "target_unique_after": [
+    0,
+    1
+  ],
+  "train_shape": [
+    8844,
+    30
+  ],
+  "test_shape": [
+    2211,
+    30
+  ],
+  "train_distribution": {
+    "0": 3918,
+    "1": 4926
+  },
+  "test_distribution": {
+    "0": 980,
+    "1": 1231
+  },
+  "class_weights": {
+    "0": 1.1286370597243491,
+    "1": 0.8976857490864799
+  }
+}

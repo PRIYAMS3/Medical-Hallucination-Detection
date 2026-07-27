@@ -1,0 +1,283 @@
+TOTAL_PAGES: 22
+
+===== PAGE 1 =====
+Content Delivery Networks 
+(CDN)
+===== PAGE 2 =====
+CDN
+• A geographically distributed network of servers
+• Designed to deliver content efficiently to users
+• Reduces latency by serving content from nearest location
+Examples of Content:
+• Web pages
+• Images, videos
+• APIs
+• Streaming media
+===== PAGE 3 =====
+Why CDN is Needed?
+• High latency in centralized servers
+• Increased user demand globally
+• Bandwidth optimization
+• Improved user experience (low load time)
+Traditional vs CDN-Based Delivery
+• Traditional:
+• Single server
+• High delay
+• CDN:
+• Distributed servers
+• Faster delivery
+===== PAGE 4 =====
+CDN Concepts
+• Origin Server
+• The main server where original content is stored
+• Example: Your website hosting server
+• Edge Server (PoP – Point of Presence)
+• Distributed servers located across different geographic locations
+• Deliver content to users from the nearest location
+• Cache
+• Temporary storage of frequently accessed content
+• Reduces need to fetch data repeatedly from origin
+• Latency
+• Time taken for data to travel from server to user
+• Lower latency = faster content delivery
+• Bandwidth
+• Amount of data that can be transferred per second
+• Higher bandwidth = smoother streaming/downloads
+===== PAGE 5 =====
+CDN Architecture
+• Origin Server
+• Central repository of all original website/app content
+• Handles requests when content is not available in cache (cache miss)
+• Edge Servers (PoPs)
+• Distributed across multiple geographic locations
+• Store cached copies of content close to users
+• Reduce load on origin server and improve speed
+• DNS Routing
+• DNS directs user requests to the nearest or best-performing edge server
+• Uses factors like location, latency, and server load
+• Overall Flow
+• User → DNS → Nearest Edge Server → (Cache Hit/Miss) → Origin (if needed)
+===== PAGE 6 =====
+How CDN Works (Step-by-Step)
+1. User Request
+• User enters a website URL or clicks a link
+• Request is sent through the internet
+2. DNS Redirection
+• DNS identifies the user's location
+• Redirects the request to the nearest CDN edge server (PoP)
+3. Cache Check (at Edge Server)
+• CDN checks whether the requested content is already stored (cached)
+4. Cache Hit (Fast Response)
+• If content is available in cache → immediately delivered to user
+• Results in very low latency and fast loading
+5. Cache Miss (Fetch from Origin)
+• If content is not in cache → CDN requests it from origin server
+• Content is then delivered to user and stored in cache for future requests
+First request may be slightly slower, but subsequent users get faster delivery
+===== PAGE 7 =====
+CDN Caching Mechanism
+• Cache Hit
+• Requested content is already available in the edge server cache
+• Delivered immediately to the user
+• Faster response and reduced latency
+• Cache Miss
+• Content is not available in cache
+• CDN fetches it from the origin server
+• Slight delay, but content is stored for future use
+• TTL (Time-To-Live)
+• Defines how long content stays in cache before expiring
+• After TTL expires, content is refreshed from origin
+• Content Invalidation
+• Process of removing or updating outdated content in cache
+• Ensures users always receive the latest version of content
+===== PAGE 8 =====
+Types of CDN
+• Push CDN
+• Content is uploaded (pushed) manually to CDN servers in advance
+• CDN stores and serves this content directly
+• Suitable for static content (videos, images)
+• Pull CDN
+• CDN automatically fetches content from origin when requested
+• No need to upload content manually
+• Most commonly used type
+• Hybrid CDN
+• Combination of push and pull methods
+• Static content is pushed, dynamic content is pulled
+• Provides flexibility and better performance
+===== PAGE 9 =====
+CDN Performance Metrics
+• Latency
+• Time taken for data to travel from CDN server to user
+• Lower latency means faster content delivery
+• Throughput
+• Amount of data transferred per second
+• Higher throughput ensures smooth streaming and downloads
+• Cache Hit Ratio
+• Percentage of requests served directly from cache
+• Higher ratio = better performance and less load on origin
+• Availability
+• Ability of CDN to serve content without failure
+• Measured as uptime (e.g., 99.9%)
+===== PAGE 10 =====
+CDN and Cloud Computing
+• CDN Integrated with Cloud Platforms
+• CDN services are built into cloud providers (AWS, Azure, Google Cloud)
+• Easily connected with cloud storage and applications
+• Enhances Scalability
+• Automatically handles large traffic by distributing load across multiple servers
+• Supports sudden spikes in users without performance drop
+• Improves Global Access
+• Content is delivered from servers located worldwide
+• Users from different regions experience faster loading and better performance
+Cloud provides infrastructure, CDN ensures fast delivery
+===== PAGE 11 =====
+CDN in Major Cloud Providers
+• AWS CloudFront
+• Amazon’s CDN service
+• Integrates with AWS services like S3, EC2
+• Provides fast and secure content delivery worldwide
+• Azure CDN
+• Microsoft’s CDN offering
+• Works with Azure storage and web apps
+• Offers global distribution with built-in security features
+• Google Cloud CDN
+• Google’s CDN service
+• Uses Google’s global network infrastructure
+• Optimized for high-speed delivery and low latency
+===== PAGE 12 =====
+Benefits of CDN in Cloud
+• Reduced Server Load
+• Frequently requested content is served from CDN edge servers instead of the 
+origin server
+• This decreases traffic on the main server and improves overall performance
+• Auto Scaling
+• CDN can handle sudden increases in user requests by distributing traffic across 
+many servers
+• Useful during peak demand, such as product launches or live events
+• Cost Optimization
+• Reduces bandwidth usage and processing load on the origin infrastructure
+• Helps organizations lower hosting and data transfer costs
+• High Availability
+• Content is replicated across multiple servers and locations
+• Even if one server fails, another server can continue serving users
+===== PAGE 13 =====
+Introduction to Edge Computing
+• Processing Data Closer to Source
+• Data is processed near where it is generated (e.g., sensors, devices)
+• Reduces the need to send data to distant cloud servers
+• Reduces Latency
+• Faster response since data travels shorter distance
+• Important for time-sensitive applications
+• Supports Real-Time Applications
+• Enables instant decision-making and actions
+• Used in applications like autonomous vehicles, smart cities, and IoT systems
+Edge computing brings computation closer to users/devices for speed and 
+efficiency
+===== PAGE 14 =====
+CDN vs Edge Computing
+CDN Edge Computing
+Content delivery Data processing
+Caching focus Compute focus
+CDN (Content Delivery Network)
+• Primarily focuses on delivering static and dynamic content (images, videos, web pages)
+• Uses caching to store copies of content closer to users
+• Faster content access and reduced latency
+Edge Computing
+• Focuses on processing data near the source (devices, sensors, users)
+• Performs computation (analytics, decision-making) at edge nodes
+• Real-time processing and reduced dependency on cloud
+Key Difference:
+• CDN = Deliver content faster,   Edge = Process data faster
+===== PAGE 15 =====
+CDN + Edge Integration
+• Edge Nodes Perform Computation
+• Modern CDN edge servers are not just for caching
+• They can execute code and process data at the edge
+• Reduces need to send data back to central cloud
+• Example: Edge Functions (Lambda@Edge)
+• Allows running small programs at CDN edge locations
+• Can modify requests/responses (e.g., redirect users, customize content)
+• Improves performance and reduces latency
+• Personalized Content Delivery
+• Content can be customized based on user location, device, or preferences
+• Example: Showing different language, ads, or recommendations
+CDN + Edge = Faster delivery + Smart processing at user’s nearest location
+===== PAGE 16 =====
+Edge CDN Use Cases
+• Video Streaming (Netflix, YouTube)
+• Content is cached at edge servers close to users
+• Reduces buffering and ensures smooth playback
+• Online Gaming
+• Game data is processed and delivered with minimal delay
+• Provides low latency for real-time multiplayer interactions
+• IoT Data Processing
+• Edge nodes process sensor data locally instead of sending to cloud
+• Enables faster decisions in smart homes, industries, and cities
+• AR/VR Applications
+• Requires ultra-low latency for immersive experience
+• Edge computing ensures quick rendering and real-time interaction
+Edge CDN supports applications that need fast response and real-time 
+processing
+===== PAGE 17 =====
+Security in CDN
+• DDoS Protection
+• CDN distributes traffic across many edge servers
+• Absorbs and mitigates large-scale attack traffic
+• Prevents origin server from being overwhelmed
+• SSL/TLS Encryption
+• Secures data transfer between user and CDN using encryption
+• Ensures confidentiality and integrity of data
+• Example: HTTPS secure communication
+• Web Application Firewall (WAF)
+• Filters and monitors incoming HTTP requests
+• Blocks malicious traffic such as SQL injection and XSS attacks
+• Protects web applications from common vulnerabilities
+CDN not only improves performance but also strengthens security at the network 
+edge
+===== PAGE 18 =====
+Challenges of CDN
+• Cache Consistency
+• Ensuring that all edge servers have updated and correct content
+• Difficult when content changes frequently
+• May lead to users seeing outdated data
+• Cost Management
+• CDN services involve charges for data transfer and requests
+• High traffic can increase operational costs
+• Requires optimization to balance performance and cost
+• Data Privacy Issues
+• User data may be processed across multiple geographic locations
+• Must comply with data protection regulations (e.g., GDPR)
+• Risk of data exposure if not properly secured
+While CDN improves performance, managing consistency, cost, and security is 
+challenging
+===== PAGE 19 =====
+CDN for IoT and Smart Systems
+• Low Latency Communication
+• Data is delivered and processed close to IoT devices
+• Enables quick response for time-critical systems
+• Efficient Data Handling
+• Reduces need to send large volumes of data to central cloud
+• Filters and processes data at edge nodes to optimize bandwidth usage
+• Smart City Applications
+• Used in traffic management, surveillance, and environmental monitoring
+• Enables real-time decision-making in smart infrastructure
+CDN + Edge enables faster, smarter, and more efficient IoT systems
+===== PAGE 20 =====
+Real-World Example
+• Netflix Uses CDN for Streaming
+• Netflix distributes its video content across global CDN edge servers
+• Users are served from the nearest server instead of a central data center
+• Reduces Buffering
+• Videos are pre-cached at edge locations close to users
+• Minimizes delays and prevents interruptions during playback
+• Improves Quality of Service (QoS)
+• Provides faster start time and smooth streaming
+• Adapts video quality based on user’s network speed
+CDN ensures seamless, high-quality streaming experience for millions of 
+users worldwide
+===== PAGE 21 =====
+• CDN improves performance and scalability
+• Cloud + CDN = Global reach
+• Edge computing enhances CDN capabilities
+===== PAGE 22 =====
+END

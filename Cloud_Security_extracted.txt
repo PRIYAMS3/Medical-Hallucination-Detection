@@ -1,0 +1,459 @@
+TOTAL_PAGES: 36
+
+===== PAGE 1 =====
+Cloud Security
+===== PAGE 2 =====
+• Cloud security is a subset of cybersecurity focused on securing
+platforms like Amazon Web Services, Microsoft Azure, and Google
+Cloud Platform.
+• It ensures:
+• Data confidentiality (no unauthorized access) :Prevent unauthorized access to 
+data
+• Integrity (data not altered) :Ensure data remains accurate and unaltered
+• Availability (services always accessible) : Guarantee reliable access to services
+===== PAGE 3 =====
+Components of Cloud Security
+1. Identity and Access Management (IAM)
+• Controls who can access what
+• Uses authentication (passwords, MFA) and authorization 
+• Example: Role-based access control (RBAC)
+2. Data Security
+• Encryption (at rest & in transit) 
+• Data masking and tokenization 
+• Backup and recovery mechanisms 
+3. Network Security
+• Firewalls and virtual private clouds (VPC) 
+• Intrusion detection/prevention systems (IDS/IPS) 
+• Secure APIs and endpoints
+===== PAGE 4 =====
+4. Application Security
+• Secure coding practices 
+• Regular vulnerability testing 
+• Patch management 
+5. Compliance & Governance
+• Ensures adherence to standards like: 
+• ISO 27001 
+• GDPR 
+• HIPAA
+===== PAGE 5 =====
+Identity and Access Management (IAM)
+• Identity and Access Management is a critical component of cloud 
+security that ensures only authorized users can access resources. 
+• It involves authentication (verifying identity) and authorization (granting 
+permissions).
+• IAM systems implement mechanisms such as:
+• Role-Based Access Control (RBAC) 
+• Multi-Factor Authentication (MFA) 
+• Least privilege principle 
+• Improper IAM configuration is one of the leading causes of cloud 
+security breaches.
+===== PAGE 6 =====
+Data Security
+• Data security involves protecting data at all stages: at rest, in transit, and in use.
+• Encryption is widely used:
+• Data at rest is protected using algorithms such as AES 
+• Data in transit is secured using protocols like TLS 
+• Emerging techniques such as confidential computing protect data during processing 
+• Backup and disaster recovery strategies are also essential to ensure data availability 
+during failures or attacks.
+Network Security
+Network security in cloud environments focuses on securing communication between systems. 
+This is achieved through:
+• Virtual Private Clouds (VPCs) 
+• Network segmentation 
+• Firewalls and security groups 
+• Intrusion Detection and Prevention Systems (IDS/IPS) 
+These mechanisms help prevent unauthorized access and detect malicious activities.
+===== PAGE 7 =====
+Application Security 
+• Applications deployed in the cloud must be designed securely to prevent 
+vulnerabilities. This includes:
+• Secure coding practices 
+• Regular patch updates 
+• Vulnerability assessment and penetration testing 
+• Modern cloud applications often use microservices and APIs, which require 
+additional security measures such as API gateways and rate limiting.
+Compliance & Governance
+Organizations using cloud services must comply with various regulations and standards such as:
+• ISO 27001 
+• GDPR 
+• HIPAA 
+Compliance ensures that data is handled securely and legally. Governance policies define how 
+resources are accessed, monitored, and audited.
+===== PAGE 8 =====
+Threats and Vulnerabilities in Cloud
+• Cloud environments face a variety of threats. One of the most common is data 
+breaches, often caused by misconfigured storage systems. 
+• For example, publicly accessible storage buckets have led to significant data leaks.
+• Other major threats include:
+• Account hijacking due to stolen credentials 
+• Insider threats from authorized users 
+• Denial-of-Service (DoS) attacks 
+• Malware injection in cloud workloads 
+• Many cloud security incidents are not due to provider failure but due to user 
+misconfiguration.
+===== PAGE 9 =====
+Layered Cloud Security Architecture
+• Cloud security works in layers (defense-in-depth)
+• Each layer addresses specific risks and ensures end-to-end protection.
+Physical Layer
+• Data centers, hardware, cooling systems 
+• Managed by providers like Amazon Web Services 
+• The lowest layer consisting of data centers, servers, and storage hardware
+Security Measures:
+• Surveillance systems (CCTV, biometrics) 
+• Restricted physical access 
+• Environmental controls (cooling, fire suppression) 
+• Responsibility is Fully managed by cloud provider 
+• Failure here → complete system compromise
+===== PAGE 10 =====
+Infrastructure Layer
+Virtual machines, containers, hypervisors 
+Threat: VM escape attacks 
+• Includes virtualization technologies such as:
+• Hypervisors 
+• Virtual Machines (VMs) 
+• Security Risks:VM escape attacks, Hypervisor vulnerabilities 
+• Example Attack: An attacker breaks out of a VM and gains access to the host 
+system
+• Isolation between tenants is critical
+===== PAGE 11 =====
+Network Layer
+• VPC, subnets, firewalls, routing 
+• Threat: spoofing, DDoS 
+• Ensures secure communication within the cloud
+• Components:
+• Virtual Private Cloud (VPC) 
+• Firewalls 
+• Load balancers 
+• IDS/IPS systems 
+• Common Attacks: 
+• Distributed Denial of Service (DDoS) 
+• Packet sniffing 
+Controls traffic flow and access between systems
+===== PAGE 12 =====
+• Application Layer
+• APIs, web apps, microservices 
+• Threat: SQL injection, XSS 
+• Contains applications, services, and APIs
+• Security Threats:
+• SQL Injection 
+• Cross-Site Scripting (XSS) 
+• API exploitation 
+• Security Measures:
+• Secure coding practices 
+• Input validation 
+• API gateways 
+Most frequently attacked layer
+===== PAGE 13 =====
+• Data Layer
+• Storage, databases 
+• Threat: leakage, corruption 
+• Real security = securing ALL layers simultaneously
+• Focuses on protecting data storage and transmission
+• Security Techniques:
+• Encryption (at rest & in transit) 
+• Access control mechanisms 
+• Backup and recovery systems 
+• Risks:
+• Data breaches 
+• Unauthorized access 
+Data is the most valuable asset
+===== PAGE 14 =====
+
+===== PAGE 15 =====
+Layer Focus Major Threat
+Physical Hardware Physical breach
+Infrastructure Virtualization VM escape
+Network Communication DDoS
+Application Software/APIs Injection attacks
+Data Information Data breach
+Summary of Layers
+===== PAGE 16 =====
+Advanced Security Mechanisms
+• Zero Trust Architecture (ZTA)
+• “Never trust, always verify” 
+• Even internal users are verified continuously 
+• Encryption Strategies
+• At Rest → AES-256 
+• In Transit → TLS 
+• In Use → Confidential computing 
+• Management
+• KMS (Key Management Services) 
+• Hardware Security Modules (HSM)
+===== PAGE 17 =====
+Zero Trust Architecture
+• Traditional security models assumed that everything inside an
+organization’s network could be trusted. However, with cloud
+computing, remote work, and mobile access, this assumption is no
+longer valid.
+• Zero Trust eliminates implicit trust and requires continuous verification
+of every user, device, and request, regardless of whether it originates
+inside or outside the network.
+===== PAGE 18 =====
+Principles of Zero Trust
+• Zero Trust is built on three fundamental principles:
+1. Verify Explicitly
+• Every access request is authenticated and authorized using:
+• User identity 
+• Device health 
+• Location 
+• Risk level 
+2. Least Privilege Access
+• Users are given only the minimum access required to perform their tasks.
+3. Assume Breach
+• The system assumes that attackers may already be present and continuously 
+monitors activity.
+===== PAGE 19 =====
+Working of Zero Trust 
+• User requests access to a resource 
+• System verifies identity (login + MFA) 
+• Device posture is checked 
+• Context is evaluated (location, behavior) 
+• Access is granted with limited privileges 
+• Activity is continuously monitored 
+Access can be revoked instantly if suspicious behavior is detected
+Aspect Traditional Security Zero Trust
+Trust Model Trust inside network Trust no one
+Access Control Static Dynamic
+Security Focus Network perimeter Identity & context
+Threat Handling Reactive Proactive
+===== PAGE 20 =====
+Advantages of Zero Trust
+• Reduces risk of data breaches 
+• Prevents lateral movement of attackers 
+• Supports remote work and cloud environments 
+• Improves visibility and monitoring 
+Challenges of Zero Trust
+• Complex implementation 
+• Requires strong identity management 
+• May increase latency due to continuous verification 
+• Needs organizational policy changes
+===== PAGE 21 =====
+Real-World Example (zero trust)
+• A user tries to access a cloud database hosted on Amazon Web 
+Services:
+• System checks: 
+• Username + password 
+• OTP (MFA) 
+• Device compliance 
+• Location (e.g., unusual country?) 
+• If everything is valid → limited access granted 
+• If anomaly detected → access denied
+===== PAGE 22 =====
+Best Practices for Cloud Security
+• Effective cloud security requires a proactive approach. Key practices 
+include:
+• Enabling Multi-Factor Authentication 
+• Using strong encryption techniques 
+• Regularly auditing configurations 
+• Monitoring logs and activities 
+• Applying the principle of least privilege
+===== PAGE 23 =====
+Authentication Models
+• Authentication is the process of verifying the identity of a user or 
+system. 
+• Before access is granted, the system must answer: “Who are you?”   
+Classification of Authentication
+Authentication can be divided into three categories:
+1. Authentication Methods: (How identity is verified)
+2. Authentication Models: (How authentication is managed across systems)
+3. Security Enhancements: (How authentication is strengthened)
+===== PAGE 24 =====
+Authentication Methods
+• These directly verify identity:
+• Password-based 
+• Biometric (fingerprint, face) 
+• Certificate-based 
+• Token-based 
+These answer “Is this user genuine?”
+Authentication Models
+These define how authentication works across systems:
+• Multiple Login (Traditional) 
+• Single Sign-On (SSO)
+• Federated Authentication 
+These answer “How is access managed across multiple applications?”
+===== PAGE 25 =====
+Classification of Authentication Models
+• Authentication methods can be grouped as:
+Based on Approach
+• Multiple Authentication 
+• Single Sign-On (SSO)
+• Federated Authentication 
+Based on Credentials
+• Password-based 
+• Token-based 
+• Certificate-based 
+• Biometric 
+Based on Security Level
+• Multi-Factor Authentication 
+• Adaptive Authentication 
+• Passwordless Authentication
+===== PAGE 26 =====
+Multiple Authentication (Traditional Model) 
+• Multiple Authentication (or Traditional Login) requires users to log in 
+separately to each application. 
+• Working: 
+• User accesses Application A → enters credentials 
+• User accesses Application B → logs in again
+• Each system maintains its own authentication database  
+• Advantages
+• No dependency on central system 
+• No single point of failure
+• Disadvantages
+• Poor user experience 
+• Password fatigue 
+• Higher chance of weak/reused passwords
+===== PAGE 27 =====
+Single Sign-On (SSO)
+• SSO allows a user to log in once and access multiple systems without 
+re-authentication.
+• SSO does not verify identity itself. It uses underlying authentication 
+methods
+How SSO Works
+• User logs in once 
+• Identity is verified (e.g., password + OTP) 
+• System creates authentication session/token 
+• Same identity is reused across applications 
+No repeated login required
+SSO is NOT an authentication method. 
+SSO is an authentication model/ architecture
+It depends on: Password, Biometrics, MFA
+===== PAGE 28 =====
+Federated Authentication 
+• Federated Authentication allows users to access systems across 
+different organizations using a trusted identity provider. 
+Working:
+• User tries to access an application (Service Provider)
+• Redirected to Identity Provider
+• User logs in once
+• Identity Provider sends authentication token
+• Access granted 
+• Examples
+• Login with Google 
+• Login with Microsoft
+
+===== PAGE 29 =====
+• Advantages
+• No need to create new accounts 
+• Cross-domain access 
+• Simplifies identity management
+• Disadvantages
+• Dependency on external provider 
+• Trust relationship required 
+• Privacy concerns
+Feature Multiple Login SSO Federation
+Login Frequency Many times Once Once
+Scope Single app Same organization Multiple organizations
+Identity Provider Local Centralized External
+Example Old systems Enterprise cloud Login with Google
+===== PAGE 30 =====
+Classification of Authentication Models
+• Authentication methods can be grouped as:
+Based on Approach
+• Multiple Authentication 
+• Single Sign-On (SSO)
+• Federated Authentication 
+Based on Credentials
+• Password-based 
+• Token-based 
+• Certificate-based 
+• Biometric 
+Based on Security Level
+• Multi-Factor Authentication 
+• Adaptive Authentication 
+• Passwordless Authentication
+===== PAGE 31 =====
+Password-Based Authentication
+Uses username and password
+• Issues:
+• Weak passwords 
+• Reuse across systems 
+• Vulnerable to attacks 
+• Still widely used but less secure
+Certificate-Based Authentication
+Uses digital certificates to verify identity
+Example: SSL/TLS client certificates 
+Advantages:
+• Strong security 
+• No password required
+Token-Based Authentication
+Uses tokens instead of passwords after login
+Examples:
+JWT (JSON Web Token) 
+Session tokens 
+Used in APIs, Cloud applications
+Biometric Authentication
+Uses physical or behavioral traits
+Examples:
+• Fingerprint 
+• Face recognition 
+• Iris scan 
+Difficult to replicate
+===== PAGE 32 =====
+Classification of Authentication Models
+• Authentication methods can be grouped as:
+Based on Approach
+• Multiple Authentication 
+• Single Sign-On (SSO)
+• Federated Authentication 
+Based on Credentials
+• Password-based 
+• Token-based 
+• Certificate-based 
+• Biometric 
+Based on Security Level
+• Multi-Factor Authentication 
+• Adaptive Authentication 
+• Passwordless Authentication
+===== PAGE 33 =====
+Multi-Factor Authentication (MFA)
+Requires multiple authentication factors
+Types:
+• Knowledge (password) 
+• Possession (OTP/device) 
+• Inherence (biometric) 
+Strong security enhancement
+Passwordless Authentication
+Authentication without passwords
+Methods:
+• Biometrics 
+• Security keys 
+• Magic links 
+Advantage:
+Eliminates password attacks
+Adaptive Authentication
+Authentication based on risk/context
+Example:
+• Normal login → allowed 
+• Suspicious login → extra verification 
+Dynamic and intelligent
+Kerberos Authentication
+Ticket-based authentication system
+Used in: Enterprise environments 
+• No repeated password transmission
+===== PAGE 34 =====
+Real-World Examples of Cloud Security
+Capital One Data Breach (AWS Misconfiguration) 
+• Misconfigured firewall in Amazon Web Services
+• Attacker accessed sensitive customer data 
+• Impact was ~100 million records exposed. There was huge financial 
+and reputational loss
+===== PAGE 35 =====
+Dropbox Credential Theft Incident 
+• Employee credentials stolen via phishing
+• Attacker accessed internal cloud resources 
+• Sensitive files were exposed  
+• Weak authentication is a major risk. Hence use MFA + Zero Trust
+Uber Cloud Credential Leak
+• Hardcoded credentials found in GitHub 
+• Attacker accessed cloud infrastructure 
+• Internal systems compromised 
+Never expose API keys. Use secure key management (KMS)
+===== PAGE 36 =====
+• Most cloud breaches are due to: 
+• Misconfiguration 
+• Weak authentication 
+• Poor access control 
+• NOT due to cloud provider failure
+“Cloud is secure by design, but insecure by misconfiguration.”

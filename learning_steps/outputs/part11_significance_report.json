@@ -1,0 +1,11 @@
+{
+  "best_model_by_cv_f1": "ensemble_softvote",
+  "best_model_cv_f1_mean": 0.9704467389465576,
+  "summary_table_path": "C:\\Users\\PRIYAMVADA NAMBIAR\\OneDrive - Amrita Vishwa Vidyapeetham\\Documents\\New project\\learning_steps\\outputs\\part11_paper_ready_summary_table.csv",
+  "significance_table_path": "C:\\Users\\PRIYAMVADA NAMBIAR\\OneDrive - Amrita Vishwa Vidyapeetham\\Documents\\New project\\learning_steps\\outputs\\part11_significance_table.csv",
+  "notes": [
+    "Exact sign-flip p-values are primary due to small number of folds (n=5).",
+    "t-test p-values are approximate and provided only as secondary reference.",
+    "Non-significant p-values do not mean models are equal; they indicate limited evidence with n=5."
+  ]
+}

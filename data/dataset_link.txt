@@ -1,0 +1,4 @@
+https://www.kaggle.com/competitions/store-sales-time-series-forecasting
+
+Practical dataset structure used in code:
+https://www.kaggle.com/competitions/m5-forecasting-accuracy

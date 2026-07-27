@@ -1,0 +1,8 @@
+2026-03-29 09:49:56,749 WARNING req=760a664d status=400 error=Empty request body
+2026-03-29 09:50:57,084 INFO req=36af1d3c status=200 mode=ensemble pred=Legitimate conf=0.999999
+2026-03-29 09:51:36,269 INFO req=979c52ac status=200 mode=hybrid pred=Legitimate conf=0.999999
+2026-03-29 23:15:30,013 INFO req=69ff6782 status=200 mode=hybrid pred=Legitimate conf=0.999999
+2026-03-29 23:21:46,551 INFO req=1b7dd450 status=200 mode=ensemble pred=Legitimate conf=0.999999
+2026-03-29 23:21:46,649 INFO req=2cbef04b status=200 mode=hybrid pred=Legitimate conf=0.999999
+2026-04-22 21:47:57,664 INFO req=0d79aa0d status=200 mode=ensemble pred=Legitimate conf=0.999999
+2026-04-22 21:48:38,498 INFO req=9f6f2032 status=200 mode=hybrid pred=Legitimate conf=0.999999

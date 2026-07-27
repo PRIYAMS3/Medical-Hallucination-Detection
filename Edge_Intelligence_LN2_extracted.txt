@@ -1,0 +1,143 @@
+TOTAL_PAGES: 16
+
+===== PAGE 1 =====
+EDGE COMPUTING 
+INTELLIGENCE
+===== PAGE 2 =====
+ML work Flow
+
+===== PAGE 3 =====
+ML Development Work flow
+Collecting raw data — Identify and collect data that will be used to train an ML model.
+• Augmenting data — Artificially expand labeled training datasets to improve the performance 
+of an ML model.
+• Extracting features — Reduce the number of features in the dataset by creating new features 
+that summarize the original features with less information.
+• Creating training and validation sets — Separate the raw, augmented data into two datasets: 
+one for training the ML model and one for validating the model. To test for bias and over-fitting 
+bias, these should be separate datasets.
+• Selecting a model — Choose a model that meets application and performance requirements 
+(image classification, object detection, speech recognition, anomaly detection, etc.).
+• Training the model — Use an ML algorithm and the raw data to create a model for performing 
+predictions on new data.
+• Validating the model — Run a separate set of data through the trained ML model to test for 
+accuracy and correctness.
+• Converting and quantizing the model — Approximate a floating-point-based ML network with 
+Inferencing —Run new data (from a sensor or other data collection mechanism) through the  
+ML algorithm (or model) to determine an output (for example, the classification of an object).
+===== PAGE 4 =====
+EDGE ML TOOLS
+• Edge-based ML requires tools to create and deploy ML models starting 
+in the cloud and ending with inferencing performed by edge device ML 
+software stacks with optimized run times on the key edge device 
+hardware Graphics processing units (GPUs), Central processing units 
+(CPUs), Digital signal processors (DSPs) and ML or neural processing 
+unit (NPU) accelerators. 
+• Users with different roles such as embedded developers, data scientists 
+and ML algorithm experts use ML toolkits. 
+• Cloud vendors provide ML toolkits for model training, 
+• Edge-based tools should support the deployment of ML technology 
+from the cloud to an edge device.
+===== PAGE 5 =====
+Edge ML Tools
+
+===== PAGE 6 =====
+Edge ML tools 
+• Use several open ML frameworks.
+• An ML framework combines libraries and tools that enable 
+embedded developers to build, optimize and deploy ML models 
+easier and faster. 
+• Frameworks democratize the development of ML models and 
+abstract some but not all the underlying algorithmic details. 
+• Some of these frameworks provide pre-trained models for speech 
+recognition, object detection, natural language processing (NLP) and 
+image recognition and classification
+===== PAGE 7 =====
+
+===== PAGE 8 =====
+EDGE ML HARDWARE for NN-based ML algorithms
+• Convolutional neural networks (CNNs) and recurrent neural networks (RNNs) have been 
+shown to be very effective in ML inference tasks. 
+• These algorithms consist of multiple compute and transform layers that analyze data to 
+detect patterns. 
+CNNs are feed-forward neural networks. In feed-forward networks, 
+All the computation is performed as a sequence of operations on the outputs of a previous 
+layer.
+• The final set of operations generates the output of the network 
+The probability that an image contains a particular object, 
+That an audio sequence contains a particular word, 
+That a bounding box in an image surrounds an object or
+That the proposed action is taken 
+Neural networks are trained with data in a 32-bit floating-point (FP32) representation.
+===== PAGE 9 =====
+Compute optimization using Quantization
+Inference on the edge often generates a large incentive to quantize 
+from FP32 to a fixed-point integer representation that’s 16-bit, 8-bit 
+and even lower Based on estimates done in 45nm technology1
+An 8-bit integer ADD operation consumes 30X less energy than a 32-bit 
+floating point ADD.
+An 8-bit integer MUL operation consumes 18.5X less energy than a 32-
+bit floating point MUL
+===== PAGE 10 =====
+• Edge processing ML can be performed on SoC processing elements such as CPUs, 
+GPUs, DSPs and dedicated accelerators, or a combination of these processing 
+elements. 
+• CPUs work well for embedded applications that require parsing or interpreting 
+complex logic in code. CPUs not optimized for ML computation, but they can be 
+used if necessary. CPUs dedicate more area to caches and control flow to handle 
+complex logic and more sequential processing.
+• DSPs have been used in embedded systems for many years to efficiently and 
+economically handle various forms of complex signal processing. 
+• Using DSPs to analyze sensor data for feature extraction is common. DSPs, which 
+continue to evolve, use special instructions such as MACs to accelerate common 
+signal processing structures. Vector processing units built around MAC units are 
+being used to accelerate neural network computations. Wider single instruction, 
+multiple data (SIMD) units are also being used with very long instruction word 
+(VLIW) DSP architectures. 
+CPU, GPU, DSPs, NPU
+===== PAGE 11 =====
+CPU, GPU, DSPs, NPU
+• GPUs are primarily designed for pixel processing; however, highly parallel 
+matrix mathematics can be achieved using the shader cores for ML 
+computations. 
+• NPUs are optimized for common edge-based use cases such as object 
+detection and segmentation at much higher levels of performance and 
+much lower power than CPUs. 
+• The heavy compute operations, such as convolution, pooling, activation 
+functions and primitive element wise functions, run directly on the NPU. 
+Other kernels run automatically on a tightly coupled CPU . 
+• To increase performance and reduce memory requirements is to conduct 
+offline compilation and optimization of neural networks, including operator 
+and layer fusion as well as layer reordering.
+===== PAGE 12 =====
+CPU, GPU, DSPs, NPU
+
+===== PAGE 13 =====
+Co-Ordination of multiple processing elements 
+–System level optimization 
+• Edge processing SoCs contain multiple processing elements including one 
+or more of the types mentioned previously. 
+• These processing elements can be used independently or together to 
+perform ML at the edge. 
+• Various optimized ML pipelines can be designed to efficiently leverage 
+the available processing power of the SoC.
+• Edge ML computing is a system-level optimization exercise for which 
+multiple processing elements on a SoC can be used and enabled properly 
+to support advanced real-time edge ML processing
+===== PAGE 14 =====
+
+===== PAGE 15 =====
+Parallel processing of ML algorithms on a single 
+SoC- Vision, Voice and audio ML pipeline
+
+===== PAGE 16 =====
+Summary
+Running ML at the edge requires an awareness of the compute and 
+memory resources available. 
+• It also requires modifications to the ML models and the process flow 
+to fit the resource profile. 
+In return, 
+• running ML at the edge has many advantages such as improved 
+privacy, reduced or no dependency on a network connection, reduced 
+power dissipation and the capability to make real-time low-latency 
+decisions

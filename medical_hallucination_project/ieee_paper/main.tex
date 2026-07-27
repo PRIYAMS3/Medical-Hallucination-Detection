@@ -1,0 +1,75 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+
+\begin{document}
+
+\title{Context-Aware Explainable Medical Hallucination Detection Using Retrieval-Augmented NLI, Fine-Grained Type Classification, and Clinical Severity Scoring}
+
+\author{
+\IEEEauthorblockN{Your Name}
+\IEEEauthorblockA{
+Department / University Name\\
+Email: your.email@example.com}
+}
+
+\maketitle
+
+\begin{abstract}
+Large language models are increasingly used in medical question answering and clinical decision-support settings, but they may generate hallucinated medical statements that are unsupported, contradicted by evidence, or clinically unsafe. Existing work has introduced medical hallucination benchmarks and explored retrieval-augmented generation, natural language inference, and hallucination detection separately. However, current approaches do not fully unify claim-level medical verification, biomedical evidence retrieval, fine-grained hallucination type classification, explainability, and clinical severity scoring. This paper proposes a context-aware framework that decomposes medical answers into atomic claims, retrieves biomedical evidence, verifies each claim using NLI, classifies hallucination type, explains the decision using evidence spans and token-level signals, and assigns a clinical severity score.
+\end{abstract}
+
+\begin{IEEEkeywords}
+medical hallucination detection, retrieval-augmented generation, natural language inference, explainable AI, clinical NLP, MedHallu
+\end{IEEEkeywords}
+
+\section{Introduction}
+Large language models (LLMs) have shown strong performance in medical question answering, biomedical summarization, and patient-facing health information tasks. However, their tendency to produce hallucinations remains a major barrier to safe clinical use. In the medical domain, hallucinations are especially dangerous because an incorrect drug, diagnosis, dosage, contraindication, or treatment recommendation may directly affect patient safety.
+
+Recent studies show that hallucination detection is an active but unresolved research area. MedHallu introduced a dedicated medical hallucination benchmark derived from PubMedQA \cite{medhallu2025,medhalluDataset2025}, while scientific and retrieval-augmented generation studies have explored natural language inference, span-level detection, and claim verification \cite{ragToReality2025,scihalOverview2025,rt4chart2026,ragtruth2024}. Yet these directions remain fragmented.
+
+\section{Research Gap}
+Existing medical hallucination detection methods are often limited to binary detection or benchmark-level evaluation. Although datasets such as MedHallu provide medical hallucination samples and category information, current systems do not provide a unified pipeline that performs claim-level decomposition, biomedical retrieval, NLI-based verification, hallucination type classification, clinician-facing explanation, and clinical severity scoring.
+
+Therefore, the key research gap is the absence of an explainable, risk-aware, claim-level hallucination detection framework for medical NLP.
+
+\section{Objective}
+The main objective of this research is to develop a context-aware, explainable, fine-grained hallucination detection framework for medical NLP that integrates retrieval-augmented verification, natural language inference, multi-type classification, and clinical severity scoring.
+
+\section{Proposed Methodology}
+The proposed framework consists of six major modules:
+
+\begin{enumerate}
+    \item Claim decomposition: split a generated medical answer into atomic verifiable claims.
+    \item Biomedical evidence retrieval: retrieve relevant evidence from PubMedQA, PubMed abstracts, or MedHallu contexts.
+    \item NLI verification: classify each claim as supported, contradicted, or unverifiable.
+    \item Hallucination type classification: classify errors into categories such as entity, relational, factual, contextual, dosage, or causal errors.
+    \item Explainability: display evidence spans and highlight important claim tokens.
+    \item Clinical severity scoring: assign a risk-aware severity score to each hallucinated claim.
+\end{enumerate}
+
+\section{Clinical Severity Score}
+The proposed severity score is defined as:
+
+\begin{equation}
+S = W_t \times C_s \times W_r
+\end{equation}
+
+where $W_t$ is the hallucination type weight, $C_s$ is the contradiction strength from the NLI model, and $W_r$ is the clinical risk weight.
+
+\section{Datasets}
+The primary benchmark selected for this project is MedHallu, a medical hallucination benchmark derived from PubMedQA \cite{medhallu2025,medhalluDataset2025}. The planned splits are \textit{pqa\_labeled} for high-quality labeled evaluation and \textit{pqa\_artificial} for larger-scale experimentation. Supporting datasets may include PubMedQA, RAGTruth, SciHal25, Mu-SHROOM, and HealthBench \cite{ragtruth2024,scihalOverview2025,mushroom2025,healthbench2025}.
+
+\section{Current Progress}
+So far, the project has completed a literature matrix of more than 30 papers from 2024--2026, finalized the research gap, selected MedHallu as the main benchmark, created the proposal and methodology documents, and implemented an initial Python scaffold for claim splitting, retrieval, NLI wrapping, severity scoring, dataset inspection, and baseline classification.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
+

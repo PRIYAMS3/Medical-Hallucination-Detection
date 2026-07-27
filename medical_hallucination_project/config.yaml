@@ -1,0 +1,21 @@
+dataset:
+  hf_name: UTAustin-AIHealth/MedHallu
+  primary_split: pqa_labeled
+  external_split: pqa_artificial
+
+retrieval:
+  method: tfidf
+  top_k: 5
+
+nli:
+  model_name: MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli
+  labels:
+    entailment: supported
+    contradiction: contradicted
+    neutral: unverifiable
+
+severity:
+  thresholds:
+    low_max: 0.30
+    moderate_max: 0.60
+

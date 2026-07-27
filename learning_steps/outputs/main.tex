@@ -1,0 +1,173 @@
+﻿\documentclass[conference]{IEEEtran}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{array}
+
+\title{Confidence-Aware Hybrid Ensemble for Robust Phishing Website Detection under Distribution Shift}
+
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Phishing website detection systems must achieve high accuracy while remaining robust under real-world distribution shift. This paper presents a confidence-aware hybrid ensemble framework that combines three neural classifiers through soft-voting and selectively applies rule-based overrides for low-confidence predictions. The system is trained on 11,055 labeled samples with 30 engineered URL and webpage features and evaluated using five-fold stratified cross-validation and external-dataset testing. On internal cross-validation, the ensemble achieves an F1-score of $0.9704 \pm 0.0026$ and ROC-AUC of $0.9954 \pm 0.0006$. On an external dataset of 2,456 samples (with 16 harmonized features), the hybrid mode improves recall from $0.8201$ to $0.8473$ and F1-score from $0.8820$ to $0.8956$ compared to the base ensemble, while preserving ROC-AUC ($0.9568$). The final system is packaged for both batch inference and lightweight API deployment.
+\end{abstract}
+
+\begin{IEEEkeywords}
+phishing detection, ensemble learning, confidence-aware decision, hybrid AI, distribution shift, cybersecurity
+\end{IEEEkeywords}
+
+\section{Introduction}
+Phishing remains one of the most persistent cybersecurity threats, with attackers continuously adapting URL patterns, domain behavior, and webpage content to evade detection. Although machine learning models often show strong in-distribution performance, many systems degrade when evaluated on unseen datasets with shifted feature distributions \cite{jisa2023highaccuracy,rashid2024uda,komosny2025languages,duarte2025parked}. 
+
+Recent studies have explored deep learning, transformer-based representations, and ensemble methods to improve phishing detection \cite{haq2024cnn,aslam2024antiphishstack,he2024tinybert,su2023bert,remya2025bglphishnet,zhou2025enlem}. However, most methods still focus primarily on model accuracy and do not explicitly integrate confidence-aware decision control for safety-critical deployment.
+
+This work proposes a confidence-aware hybrid ensemble framework that combines neural soft-voting with selective rule overrides. The central idea is to intervene only in low-confidence regions, where model predictions are more likely to fail under shift.
+
+\section{Related Work}
+Classical ML pipelines remain competitive when feature engineering is strong \cite{reyesdorta2024malicious,prasad2023phiusiil,nagy2023sequentialparallel,kustiawan2025featureeng}. Deep learning approaches improve nonlinear pattern capture but are often evaluated only on in-distribution settings \cite{zaimi2024smotetomek,barik2025optimization,bourigue2025cluster}. Transformer and language-model methods report strong benchmark performance with higher computational cost \cite{su2023bert,he2024tinybert,kibriya2025llm,huynh2025semantic}. Ensemble and hybrid systems have recently gained attention for practical robustness \cite{zhou2025enlem,zhou2025logicconstraint,dandotiya2026realtime,gobinath2026optimized}. 
+
+Compared to prior work, our contribution is a lightweight confidence-gated hybrid layer on top of neural soft-voting, validated explicitly under external distribution shift.
+
+\section{Novelty and Contributions}
+The main contributions are:
+\begin{itemize}
+    \item A three-model neural soft-voting ensemble for phishing detection with strong five-fold CV performance.
+    \item A confidence-aware hybrid override mechanism (threshold $\tau=0.8$) that applies domain rules only when confidence is low.
+    \item External shift-aware evaluation with feature harmonization, showing recall and F1 gains over the base ensemble.
+    \item A deployment-ready pipeline with batch runner and lightweight API endpoint.
+\end{itemize}
+
+\section{Proposed Method}
+\subsection{Dataset and Preprocessing}
+The internal dataset contains 11,055 samples with 30 features and one target label (\texttt{Result}). Feature values are discrete (mostly in $\{-1,0,1\}$). For internal training/evaluation, labels are mapped as $-1 \rightarrow 0$ and $+1 \rightarrow 1$. 
+
+For external testing (2,456 samples), feature harmonization maps binary columns from $\{0,1\}$ to $\{-1,1\}$ where needed (16 mapped features). External reporting follows the phishing-positive scenario ($-1 \rightarrow 1$, $+1 \rightarrow 0$), consistent with the project evaluation protocol.
+
+\subsection{Base Models}
+Three MLP-based models are used:
+\begin{itemize}
+    \item \textbf{Simple ANN:} hidden layers $(64,32)$.
+    \item \textbf{Deep ANN:} hidden layers $(128,64,32)$ with $\alpha=0.0002$.
+    \item \textbf{Dropout-style ANN:} hidden layers $(128,64,32)$ with stronger L2 regularization ($\alpha=0.0015$) as a dropout-style regularized variant in the scikit-learn MLP setting.
+\end{itemize}
+All models use ReLU activations, Adam optimizer, learning rate 0.001, batch size 64, and early stopping.
+
+\subsection{Soft-Voting Ensemble}
+For input feature vector $x$, model probabilities are averaged:
+\begin{equation}
+P(y=1\mid x)=\frac{1}{K}\sum_{i=1}^{K}f_i(x),\quad K=3.
+\end{equation}
+The base ensemble label is $\hat{y}=\mathbb{I}[P(y=1\mid x)\ge 0.5]$.
+
+\subsection{Confidence-Aware Hybrid Layer}
+Confidence is defined as:
+\begin{equation}
+C(x)=\max\left(P(y=1\mid x),\,1-P(y=1\mid x)\right).
+\end{equation}
+If $C(x)<\tau$ (with $\tau=0.8$), at least one rule is triggered, and the model predicts non-phishing, prediction is overridden to phishing.
+
+Rules used:
+\begin{itemize}
+    \item IP address used in URL
+    \item Invalid SSL state
+    \item Suspicious anchor URLs
+    \item Hyphen in domain prefix/suffix
+\end{itemize}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.47\textwidth]{pipeline.png}
+\caption{Confidence-aware hybrid ensemble pipeline.}
+\label{fig:pipeline}
+\end{figure}
+
+\section{Experimental Setup}
+\subsection{Protocols}
+\begin{itemize}
+    \item \textbf{Internal:} five-fold stratified cross-validation.
+    \item \textbf{External:} evaluation on a separate ARFF dataset after harmonization.
+\end{itemize}
+
+\subsection{Metrics}
+Accuracy, precision, recall, F1-score, and ROC-AUC are reported. Significance analysis uses exact sign-flip tests with Holm correction.
+
+\section{Results}
+\subsection{Internal Cross-Validation}
+The soft-voting ensemble is best by mean F1.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Five-Fold CV Performance (mean $\pm$ std)}
+\label{tab:cv}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Model} & \textbf{F1} & \textbf{ROC-AUC} \\
+\midrule
+Simple ANN & $0.9625 \pm 0.0063$ & $0.9932 \pm 0.0017$ \\
+Deep ANN & $0.9689 \pm 0.0028$ & $0.9951 \pm 0.0003$ \\
+Dropout-style ANN & $0.9688 \pm 0.0043$ & $0.9948 \pm 0.0011$ \\
+Ensemble (soft-vote) & $\mathbf{0.9704 \pm 0.0026}$ & $\mathbf{0.9954 \pm 0.0006}$ \\
+Hybrid ($\tau=0.8$) & $0.9664 \pm 0.0043$ & $0.9951 \pm 0.0003$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{External Dataset (Distribution Shift)}
+The hybrid layer improves recall and F1 over the base ensemble.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Base Ensemble vs Proposed Hybrid on External Dataset ($N=2456$)}
+\label{tab:external}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Method} & \textbf{Acc.} & \textbf{Prec.} & \textbf{Recall} & \textbf{F1} & \textbf{AUC} \\
+\midrule
+Base Ensemble & 0.8783 & 0.9539 & 0.8201 & 0.8820 & 0.9568 \\
+Proposed Hybrid & \textbf{0.8905} & 0.9498 & \textbf{0.8473} & \textbf{0.8956} & 0.9568 \\
+$\Delta$ (Hybrid - Base) & +0.0122 & -0.0041 & +0.0272 & +0.0137 & 0.0000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Comparison with Base Paper}
+Table~\ref{tab:basecmp} highlights the key difference between the base EnLeM paper and our final system.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Base Paper vs This Work}
+\label{tab:basecmp}
+\begin{tabular}{p{2.35cm}p{2.05cm}p{2.15cm}}
+\toprule
+\textbf{Aspect} & \textbf{Base Paper (EnLeM) \cite{zhou2025enlem}} & \textbf{This Work} \\
+\midrule
+Core model & Hard-voting classical ML ensemble & Neural soft-voting ensemble (3 MLPs) \\
+Primary internal result & Acc. 97.21\%, F1 97.51\% & F1 0.9704, AUC 0.9954 (5-fold CV) \\
+Shift-aware external validation & Not explicit in reported setup & Explicit external test ($N=2456$) with harmonization \\
+Confidence-aware decision layer & No & Yes (threshold-gated hybrid override) \\
+Deployment orientation & General practical framing & Batch + live API implementation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+The hybrid layer provides a security-oriented trade-off: slightly lower precision but improved recall under shift, which is often preferred in phishing defense settings. Overrides are selective (44 out of 2456 external samples, 1.79\%), indicating conservative intervention rather than aggressive rule forcing.
+
+\section{Conclusion}
+This paper presented a confidence-aware hybrid neural ensemble for phishing detection and validated it under both internal and external conditions. Results show strong internal ranking performance and improved external recall/F1 through selective rule overrides. Future work includes multi-dataset temporal validation, threshold optimization, and richer uncertainty estimation.
+
+\nocite{*}
+\bibliographystyle{IEEEtran}
+\bibliography{reference}
+
+\end{document}

@@ -1,0 +1,147 @@
+﻿\documentclass[conference]{IEEEtran}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{url}
+
+\title{Confidence-Aware Hybrid Ensemble for Robust Phishing Website Detection under Distribution Shift}
+
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Phishing website detection systems must achieve high accuracy while maintaining robustness under real-world distribution shifts. This paper presents a confidence-aware hybrid ensemble framework for phishing detection using structured website features. The system integrates multiple neural classifiers via soft voting and enhances reliability through a rule-based override mechanism for low-confidence predictions.
+
+The framework is evaluated on an internal dataset of 11,055 samples and an external dataset of 2,456 samples. While the ensemble model achieves strong in-distribution performance (F1-score: 0.9830, ROC-AUC: 0.9985), performance degrades under distribution shift (F1-score: 0.8956). The hybrid mechanism improves robustness by increasing recall in uncertain scenarios, demonstrating practical applicability in real-world phishing detection systems.
+\end{abstract}
+
+\begin{IEEEkeywords}
+phishing detection, malicious URL detection, ensemble learning, hybrid AI, confidence-aware decision, cybersecurity
+\end{IEEEkeywords}
+
+\section{Introduction}
+Phishing attacks remain one of the most prevalent cybersecurity threats, exploiting user trust through deceptive websites. While machine learning models achieve high accuracy in controlled environments, their performance often degrades under real-world distribution shifts \cite{jisa2023highaccuracy,ghalechyan2024neural,zhou2025enlem}.
+
+Recent work has explored deep architectures, ensemble methods, and explainable approaches for improving phishing resilience \cite{he2024tinybert,aslam2024antiphishstack,kehkashan2025explainable,remya2025bglphishnet}. However, many systems still show reduced recall on external datasets.
+
+This work proposes a confidence-aware hybrid ensemble framework that integrates neural models with rule-based decision logic to improve robustness and phishing recall when model confidence is low.
+
+\section{Objective}
+The objective of this work is to design and validate an intelligent phishing website detection system that: (1) achieves strong in-distribution performance, (2) remains reliable under distribution shift, and (3) is practical for deployment through both batch and API-based inference. To achieve this, we combine a soft-voting neural ensemble with confidence-aware rule-based override logic and evaluate the system on internal and external datasets.
+
+\section{Literature Review}
+Modern phishing detection literature includes classical ML baselines, deep neural methods, transformer-based models, and hybrid frameworks \cite{su2023bert,haq2024cnn,electronics2024multimodal,kibriya2025llm}. Recent studies also emphasize domain adaptation and robustness under data shift \cite{rashid2024uda,komosny2025languages,duarte2025parked}. Ensemble and hybrid logic designs have shown practical benefits for improving generalization in operational environments \cite{zhou2025enlem,barik2025optimization,zhou2025logicconstraint}.
+
+Compared with prior work, this paper contributes a lightweight confidence-aware override layer on top of a soft-voting neural ensemble, with explicit external-dataset validation.
+
+\section{Dataset and Preprocessing}
+The dataset consists of 11,055 samples with 30 engineered features derived from URL structure, domain characteristics, and webpage behavior. Features are encoded as discrete values (-1, 0, 1).
+
+Preprocessing includes label normalization, missing value handling, and stratified splitting. External validation is performed using an additional ARFF dataset (2,456 samples), where feature harmonization is applied to align 16 common features.
+
+\section{Methodology}
+As shown in Fig.~\ref{fig:pipeline}, the proposed system integrates ensemble learning with hybrid decision logic.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{pipeline.png}
+\caption{Proposed Confidence-Aware Hybrid Phishing Detection Framework}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Ensemble Learning}
+Let $x$ denote the input feature vector. Each model produces a probability estimate:
+
+\begin{equation}
+P(y=1 \mid x) = \frac{1}{N} \sum_{i=1}^{N} f_i(x)
+\end{equation}
+
+\subsection{Hybrid Decision Mechanism}
+Fig.~\ref{fig:decision} illustrates the confidence-based rule override mechanism.
+
+Confidence is defined as:
+
+\begin{equation}
+C(x) = \max \left( P(y=1 \mid x), 1 - P(y=1 \mid x) \right)
+\end{equation}
+
+If confidence is below a threshold (0.8) and rule conditions are triggered, the prediction is overridden to phishing.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{decision.png}
+\caption{Confidence-Based Hybrid Decision Flow}
+\label{fig:decision}
+\end{figure}
+
+\section{Experimental Setup}
+Three neural models were used:
+
+\textbf{Simple ANN:} Two hidden layers (64 to 32), ReLU activation, Adam optimizer, learning rate 0.001, batch size 64, early stopping enabled.
+
+\textbf{Deep ANN:} Three hidden layers (128 to 64 to 32), ReLU activation, Adam optimizer.
+
+\textbf{Dropout-style ANN:} Similar architecture with stronger regularization.
+
+Evaluation includes internal testing and external validation, with metrics: accuracy, precision, recall, F1-score, and ROC-AUC.
+
+\section{Results}
+The proposed system was evaluated on both internal and external datasets to assess performance under distribution shift conditions.
+
+\subsection{Internal Dataset Performance}
+On the internal dataset (11,055 samples), the ensemble model achieved high performance:
+
+\begin{itemize}
+\item Accuracy: 0.9809
+\item Precision: 0.9744
+\item Recall: 0.9917
+\item F1-score: 0.9830
+\item ROC-AUC: 0.9985
+\end{itemize}
+
+\subsection{External Dataset Performance}
+To evaluate generalization, the model was tested on an external dataset (2,456 samples). Feature harmonization was applied to align 16 common features.
+
+The hybrid model achieved:
+
+\begin{itemize}
+\item Accuracy: 0.8904
+\item Precision: 0.9497
+\item Recall: 0.8473
+\item F1-score: 0.8956
+\item ROC-AUC: 0.9567
+\end{itemize}
+
+\subsection{Comparison of Models}
+\begin{table}[htbp]
+\centering
+\small
+\caption{Performance Comparison on Internal and External Datasets}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Dataset / Model} & \textbf{F1 Score} & \textbf{ROC-AUC} \\
+\hline
+Internal (Ensemble) & 0.9830 & 0.9985 \\
+External (Hybrid) & 0.8956 & 0.9567 \\
+\hline
+\end{tabular}
+\end{table}
+
+The ensemble model achieves strong performance under in-distribution conditions. However, performance degradation on the external dataset highlights the effect of distribution shift. The hybrid model improves robustness by incorporating rule-based overrides for low-confidence predictions.
+
+\section{Discussion and Practical Deployment}
+The proposed framework supports two deployment modes: (i) standard ensemble mode for balanced predictive performance and (ii) hybrid mode for safer phishing-sensitive operation through confidence-aware rule override. This design helps in practical settings where data drift and unseen phishing patterns reduce pure model reliability.
+
+A lightweight API deployment further enables integration into browser tools, SOC pipelines, or enterprise URL screening systems.
+
+\section{Conclusion}
+This paper presented a confidence-aware hybrid ensemble for phishing website detection and evaluated it under both in-distribution and shifted data conditions. Results show strong internal performance and improved external robustness through hybrid logic. Future work includes temporal drift adaptation, richer explainability, and continuous online calibration.
+
+\bibliographystyle{IEEEtran}
+\bibliography{lit_review_30_phishing_2023_2026}
+
+\end{document}

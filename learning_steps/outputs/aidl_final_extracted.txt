@@ -1,0 +1,715 @@
+pages 8
+
+--- PAGE 1 ---
+Confidence-Aware Hybrid Ensemble for Robust
+Phishing Website Detection under Distribution Shift
+Vaibhav Wahie Priyamvada Nambiar
+School of Computer Science and Engineering School of Computer Science and Engineering
+Manipal Institute of Technology Manipal Institute of Technology
+vaibhav6.mitmpl2025@learner.manipal.edu priyamvada.mitmpl2025@learner.manipal.edu
+Naik Ashish Bhaskar
+School of Computer Science and Engineering
+Manipal Institute of Technology
+naik2.mitmpl2025@learner.manipal.edu
+Abstract—Phishing websites continue to pose a critical threat
+to cybersecurity, and machine-learning-based detection systems
+frequently suffer performance degradation when deployed on
+data distributions that differ from their training environment.
+This paper presents a confidence-aware hybrid ensemble frame-
+work that combines soft-voting neural classifiers with a rule-
+based override mechanism to improve detection robustness un-
+der distribution shift. Three artificial neural network (ANN)
+architectures—a compact two-layer network, a deeper three-
+layer network, and a regularised dropout variant—are trained
+on 30 engineered URL and webpage features extracted from
+11,055 labelled samples and fused via probability-level soft voting.
+A novel hybrid decision layer monitors prediction confidence
+and activates domain-informed heuristic rules when confidence
+falls below a calibrated threshold, selectively overriding low-
+confidence predictions toward the phishing class. Five-fold strat-
+ified cross-validation on the internal dataset yields an ensemble
+F1-score of0.9704±0.0026and ROC-AUC of0.9954±0.0006.
+On an external dataset of 2,456 samples—requiring feature har-
+monisation across 16 aligned attributes—the hybrid mechanism
+increases recall from0.8201to0.8473(+2.72percentage points)
+and F1-score from0.8820to0.8956(+1.37percentage points) rel-
+ative to the base ensemble, demonstrating meaningful robustness
+gains. The complete pipeline is packaged for both batch inference
+and lightweight REST API deployment, making it practical for
+integration into browser extensions, security operations centre
+(SOC) workflows, and enterprise URL screening systems.
+Index Terms—phishing detection, ensemble learning,
+confidence-aware decision, hybrid AI, distribution shift, neural
+network, cybersecurity
+I. INTRODUCTION
+Phishing attacks remain among the most pervasive and
+financially damaging cybersecurity threats. The Anti-Phishing
+Working Group (APWG) reported over 4.7 million phishing at-
+tacks in 2023 alone, representing a sustained upward trend [1].
+These attacks exploit user trust through deceptive websites
+that impersonate legitimate services, harvesting credentials,
+financial data, and personally identifiable information. Despite
+advances in machine learning (ML) for automated phishing
+detection, two persistent challenges limit the real-world relia-
+bility of current systems.
+First, most ML-based detectors are evaluated exclusively
+under in-distribution (ID) conditions, where training and
+test data share the same statistical properties. When de-
+ployed against novel phishing campaigns—featuring unseen
+URL patterns, shifted feature distributions, or new eva-
+sion techniques—these models experience significant perfor-
+mance degradation, a phenomenon broadly termeddistribu-
+tion shift[2]–[4].Second, purely data-driven models lack a
+principled mechanism for signalling uncertainty. A model that
+outputs a confident but incorrect prediction is arguably more
+dangerous than one that abstains or defers, yet few phishing
+detection pipelines incorporate prediction confidence into their
+decision logic [5], [6].
+Recent literature has explored several directions to address
+these limitations: deep architectures such as CNNs and LSTMs
+for richer feature extraction [7], [8], transformer-based mod-
+els leveraging pre-trained language representations [9]–[11],
+ensemble methods combining heterogeneous classifiers [6],
+[12], and explainability-focused frameworks [5]. While these
+approaches improve accuracy on benchmark datasets, they
+generally do not address the joint problem of maintaining
+robustness under distribution shiftandproviding actionable
+confidence estimates for deployment-time decision-making.
+This paper addresses the identified gap by proposing a
+confidence-aware hybrid ensembleframework that integrates
+neural soft-voting ensemble prediction with selective rule-
+based override logic. The key insight is that when a neural
+ensemble is uncertain—quantified by a calibrated confidence
+score—domain-informed heuristic rules can safely override the
+model’s prediction toward the phishing class, improving recall
+in precisely those regions of the feature space where the model
+is least reliable.
+The principal contributions of this work are as follows:
+•Asoft-voting neural ensemblecombining three ANN ar-
+chitectures of varying capacity and regularisation, achiev-
+ing an F1-score of0.9704and ROC-AUC of0.9954under
+five-fold cross-validation.
+•Aconfidence-aware hybrid decision layerthat selec-
+tively applies domain-informed rule overrides only when
+model confidence falls below a threshold (τ= 0.8),
+improving external-dataset recall by+2.72percentage
+points without degrading ROC-AUC.
+•Arigorous shift-aware evaluation protocolusing an
+external ARFF dataset with feature harmonisation across
+16 aligned attributes, explicitly quantifying robustness
+under distribution shift.
+•Adeployment-ready pipelinesupporting both batch in-
+ference and a lightweight HTTP API, enabling integration
+
+--- PAGE 2 ---
+into operational cybersecurity workflows.
+The remainder of this paper is organised as follows: Sec-
+tion II reviews related work, Section III details the proposed
+methodology, Section IV describes the experimental setup,
+Section V presents results and analysis, Section VI discusses
+implications and limitations, and Section VII concludes with
+future directions.
+II. RELATEDWORK
+Phishing detection research spans classical machine learn-
+ing, deep learning, ensemble methods, and hybrid paradigms.
+This section reviews key developments organised by method-
+ology, with emphasis on recent contributions (2023–2026).
+A. Classical Machine Learning Approaches
+Traditional approaches employ hand-crafted URL and web-
+page features with classifiers such as Random Forest, Gradient
+Boosting, and Support Vector Machines. Reyesdortaet al.[13]
+systematically evaluated multiple ML classifiers on malicious
+URL features, reporting Random Forest as a strong baseline.
+Prasadet al.[14] proposed PhiUSIIL, a framework combining
+similarity indices with incremental learning to handle evolving
+phishing patterns. Nagyet al.[12] compared sequential and
+parallel ML pipelines, demonstrating that feature engineering
+quality often matters more than classifier choice. Kustiawan
+et al.[15] conducted a systematic review of feature engi-
+neering techniques for phishing URL detection, identifying
+URL structure, domain registration, and SSL characteristics as
+the most discriminative feature groups. While these methods
+achieve high accuracy on curated benchmarks, they generally
+lack mechanisms for quantifying prediction uncertainty and
+adapting to distributional changes.
+B. Deep Learning Approaches
+Deep learning architectures have shown promise for auto-
+matic feature extraction from raw URLs and webpage content.
+Haqet al.[7] employed convolutional neural networks (CNNs)
+for character-level URL analysis, while Aslamet al.[8] pro-
+posed AntiPhishStack, an LSTM-based stacked generalisation
+model. Heet al.[16] introduced feature extension mechanisms
+for enriching URL representations prior to classification. Zaimi
+et al.[17] combined deep learning with SMOTE-Tomek link
+resampling to handle class imbalance. Bariket al.[18] applied
+optimisation-driven deep learning architectures to phishing
+URL detection, and Bourigueet al.[19] proposed a clustering-
+enhanced deep model. While these deep approaches excel at
+capturing complex nonlinear patterns, they typically require
+larger training sets and are evaluated only under in-distribution
+settings.
+C. Transformer and Language Model Approaches
+Transformer-based models have been adapted for phishing
+detection to leverage contextual embeddings of URL tokens.
+Suet al.[10] applied BERT-based architectures to malicious
+URL identification, and Heet al.[9] proposed a Tiny-
+BERT stacking method that distils transformer representations
+for efficient inference. Remyaet al.[11] introduced BGL-
+PhishNet, a hybrid combining BERT, Graph Neural Networks,
+and LightGBM. Kibriyaet al.[20] explored lightweight LLM-
+based approaches for malicious URL detection. Huynhet
+al.[21] proposed a semantic-aware approach leveraging con-
+textual URL semantics. These models achieve state-of-the-art
+accuracy but incur higher computational costs and may overfit
+to the linguistic characteristics of training-time URLs.
+D. Ensemble and Hybrid Methods
+Ensemble learning has been widely adopted to combine
+heterogeneous models for improved generalisation. Zhouet
+al.[6] proposed EnLeM, an ensemble learning-based model
+using multiple classifier fusion. Zhouet al.[22] combined
+metaheuristic algorithms with ensemble classifiers for im-
+proved detection. Turket al.[23] explored optimisation-
+supported deep learning ensembles, and Alorvoret al.[24]
+proposed temporal convolutional networks for real-time brand
+protection. Zhouet al.[25] introduced a logic-constraint neural
+network framework that integrates domain knowledge as soft
+constraints during training. Dandotiyaet al.[26] developed a
+real-time phishing identification system through ML-enhanced
+browser extensions, while Gobinathet al.[27] proposed opti-
+mised URL intelligence for deep learning-based classification.
+E. Distribution Shift and Domain Adaptation
+A critical gap in the literature concerns robustness under
+distribution shift. Rashidet al.[2] proposed unsupervised
+domain adaptation for phishing URL detection generalisation,
+representing one of the few works explicitly addressing this
+challenge. Komosnyet al.[3] studied phishing detection across
+European non-English languages, revealing significant cross-
+lingual performance degradation. Duarteet al.[4] examined
+phishing detection in parked domains within financial institu-
+tions, demonstrating the domain-specific nature of distribution
+shift.
+F . Research Gap and Positioning
+Table I summarises the positioning of the proposed work
+relative to key prior contributions. Most existing systems
+address either classifier architecture or feature engineering
+but do not jointly tackle confidence-aware decision-making
+and distribution-shift robustness. Our work fills this gap by
+introducing a lightweight, deployment-ready confidence-aware
+override layer atop a neural soft-voting ensemble, with explicit
+cross-dataset validation.
+III. PROPOSEDMETHODOLOGY
+The proposed system comprises four stages: (1) feature
+extraction and preprocessing, (2) neural ensemble construction
+via soft voting, (3) confidence-aware hybrid decision-making,
+and (4) deployment packaging. Fig. 1 presents the overall
+system architecture.
+
+--- PAGE 3 ---
+TABLE I
+COMPARISON OFPROPOSEDWORK WITHKEYRELATEDSTUDIES
+Work Ensemble Conf. Ext. Deploy
+Aware Valid. Ready
+Zhouet al.[6]✓– – –
+Rashidet al.[2] – –✓–
+Heet al.[9]✓– – –
+Kehkashanet al.[5] – – – –
+Remyaet al.[11]✓– – –
+Dandotiyaet al.[26] – – –✓
+This work✓ ✓ ✓ ✓
+Fig. 1. Overall architecture of the confidence-aware hybrid ensemble frame-
+work. The pipeline flows from feature extraction through ensemble prediction
+to the confidence-aware hybrid decision layer.
+A. Dataset and Feature Engineering
+The primary (internal) dataset consists ofN= 11,055la-
+belled website samples, each described byd= 30engineered
+features spanning three categories:
+•URL-based features(12features): URL length, pres-
+ence of IP address, shortening service usage, at-symbol
+presence, double-slash redirecting, prefix/suffix hyphens,
+subdomain depth, HTTPS token presence, and related
+structural indicators.
+•Domain-based features(10features): SSL certificate
+state, domain registration length, favicon source, port
+usage, DNS record presence, domain age, web traffic
+rank, page rank, Google index status, and statistical report
+listing.
+•Content-based features(8features): request URL ra-
+tio, anchor URL ratio, links in tags, server form han-
+dler (SFH) configuration, submission to email, redirect
+count, right-click disabling, pop-up window behaviour,
+and iframe usage.
+All features are encoded as discrete ternary values
+{−1,0,1}, where−1typically indicates a phishing-suggestive
+characteristic,0an ambiguous or neutral state, and1a
+legitimate-suggestive characteristic. The target variabley∈
+{0,1}encodes legitimate (0) and phishing (1) classes, derived
+from the original label mapping (−1→1,+1→0).
+Preprocessing includes: (i) label normalisation to a binary
+encoding, (ii) missing value imputation with zero-fill, and (iii)
+stratified splitting (80/20) preserving class proportions.
+For external validation, a separate ARFF dataset of
+Next = 2,456samples is used. Since this dataset
+employs a different encoding convention (binary
+{0,1}vs. ternary{−1,0,1}), feature harmonisation
+is performed on16columns by mapping0→ −1
+where the training data uses{−1,1}encoding. The
+harmonised features include:having_IP_Address,
+Shortining_Service,having_At_Symbol,
+double_slash_redirecting,Favicon,
+port,HTTPS_token,Submitting_to_email,
+Abnormal_URL,on_mouseover,RightClick,
+popUpWidnow,Iframe,DNSRecord,Google_Index,
+andStatistical_report.
+B. Neural Network Architectures
+Three ANN architectures with varying capacity and regu-
+larisation are trained as base classifiers:
+ModelM 1 (Simple ANN):A compact two-layer network
+with architecture30→64→32→1. Each hidden
+layer applies ReLU activation. The output layer uses sigmoid
+activation for probability estimation. Training uses the Adam
+optimiser with learning rateη= 0.001, batch sizeB= 64,
+and early stopping with patience of 10 epochs.
+ModelM 2 (Deep ANN):A three-layer network with
+architecture30→128→64→32→1, providing greater
+representational capacity. Training configuration matchesM 1.
+ModelM 3 (Dropout-style ANN):Architecture similar
+toM 2 with additional dropout regularisation (dropout rate
+p= 0.3) applied after each hidden layer. This introduces
+implicit model averaging during training, reducing overfitting
+and improving generalisation.
+For each modelM i, the forward pass throughLhidden
+layers is:
+h(l) =ReLU
+
+W(l)h(l−1) +b (l)
+
+, l= 1, . . . , L(1)
+
+--- PAGE 4 ---
+whereh (0) =x∈R 30 is the input feature vector, andW (l),
+b(l) are learnable parameters. The output probability is:
+fi(x) =σ
+
+w⊤
+o h(L) +b o
+
+(2)
+whereσ(·)is the sigmoid function.
+All models are trained using binary cross-entropy loss:
+L=− 1
+N
+NX
+j=1
+[yj logf i(xj) + (1−y j) log(1−f i(xj))](3)
+C. Soft-Voting Ensemble
+The three base models are combined via probability-level
+soft voting. For a given inputx, the ensemble probability is:
+P(y= 1|x) = 1
+K
+KX
+i=1
+fi(x)(4)
+whereK= 3is the number of base models andf i(x)is the
+phishing probability from modelM i. The ensemble prediction
+under pure model-based inference is:
+ˆyens =I[P(y= 1|x)≥0.5](5)
+Soft voting is preferred over hard voting because it preserves
+probability information, which is essential for the confidence-
+aware decision layer.
+D. Confidence-Aware Hybrid Decision Layer
+The core novelty of this work lies in the confidence-aware
+hybrid decision mechanism that augments the neural ensemble
+with selective rule-based overrides. The prediction confidence
+is defined as:
+C(x) = max (P(y= 1|x),1−P(y= 1|x))(6)
+This confidence score ranges from0.5(maximum uncer-
+tainty) to1.0(maximum certainty). WhenC(x)< τ(where
+τ= 0.8is a calibrated threshold), the system engages a
+domain-informed rule engine.
+The rule engine evaluates four expert-defined heuristic con-
+ditions on the input feature vector:
+1)R1 — IP address in URL:having_IP_Address
+= 1
+2)R2 — Invalid SSL certificate:SSLfinal_State=
+−1
+3)R3 — Suspicious anchor URLs:URL_of_Anchor
+= 1
+4)R4 — Hyphen in domain prefix/suffix:
+Prefix_Suffix= 1
+These rules are derived from well-established indicators in
+the phishing detection literature [1], [15]. The hybrid decision
+is formalised in Algorithm 1.
+The design rationale is conservative: the override only
+activates whenall three conditionsare met—low confidence, at
+least one rule triggered, and the model predicts legitimate. This
+prevents the rule engine from interfering with high-confidence
+model decisions, preserving precision while improving recall
+in uncertain regions.
+Fig. 2 illustrates the decision flow graphically.
+Algorithm 1Confidence-Aware Hybrid Decision
+Require:Inputx, ensemble probabilityP(y=1|x), thresh-
+oldτ
+Ensure:Final predictionˆy, decision typed
+1:ˆyens ←I[P(y=1|x)≥0.5]
+2:C←max(P(y=1|x),1−P(y=1|x))
+3:R←RULEENGINE(x){returns set of triggered rules}
+4:ifC < τand|R|>0andˆy ens ̸= 1then
+5:ˆy←1{override to phishing}
+6:d←rule_override
+7:else
+8:ˆy←ˆy ens
+9:d←model_only
+10:end if
+11:returnˆy,d
+Fig. 2. Confidence-based hybrid decision flow. When ensemble confidence is
+belowτ= 0.8and heuristic rules are triggered, the prediction is overridden
+to phishing.
+E. Deployment Architecture
+The system supports two operational modes:
+Batch inference mode:Processes CSV or ARFF files
+end-to-end with feature harmonisation, ensemble prediction,
+optional hybrid override, and metric computation. Results are
+
+--- PAGE 5 ---
+saved as annotated CSVs with per-sample probabilities, labels,
+decision types, and triggered rules.
+API inference mode:A lightweight HTTP server exposes a
+POST /predictendpoint accepting JSON feature vectors.
+The API returns predictions in both ensemble and hybrid
+modes, with sub-second latency suitable for real-time screen-
+ing. AGET /healthendpoint supports monitoring and load
+balancing.
+IV. EXPERIMENTALSETUP
+A. Evaluation Protocol
+Two evaluation protocols are employed:
+Internal evaluation:Five-fold stratified cross-validation
+on the primary dataset (N= 11,055), ensuring each fold
+preserves the class distribution. All three base models and the
+ensemble are trained and evaluated independently in each fold.
+External evaluation:The ensemble and hybrid models,
+trained on the full internal dataset, are evaluated on the exter-
+nal ARFF dataset (N ext = 2,456) after feature harmonisation.
+This protocol explicitly tests generalisation under distribution
+shift—the external data originates from a different collection
+period and labelling methodology.
+B. Performance Metrics
+Five standard classification metrics are reported:
+•Accuracy:Overall fraction of correct predictions.
+•Precision:TP/(TP+FP)— measures the reliability of
+phishing alerts.
+•Recall:TP/(TP+FN)— measures the completeness of
+phishing detection, critical for security applications.
+•F1-score:Harmonic mean of precision and recall.
+•ROC-AUC:Area under the receiver operating charac-
+teristic curve, measuring discriminative ability across all
+thresholds.
+C. Statistical Testing
+To assess the statistical significance of performance dif-
+ferences between models, pairwise exact sign-flip tests are
+conducted across cross-validation folds with Holm correction
+for multiple comparisons. Givenk= 5folds,p-values are
+inherently conservative; we therefore report both statistical
+significance and effect sizes (Cohen’sd z).
+D. Hyperparameter Configuration
+Table II summarises the hyperparameter configuration for
+all three base models.
+V. RESULTS ANDANALYSIS
+A. Cross-Validation Results (Internal Dataset)
+Table III presents the five-fold stratified cross-validation
+results for all models on the internal dataset.
+Several observations emerge from these results. The soft-
+voting ensemble consistently outperforms all individual base
+models in F1-score (0.9704vs.0.9689for the best individual
+TABLE II
+HYPERPARAMETERCONFIGURATION FORBASEMODELS
+Parameter Simple Deep Dropout
+Hidden layers 2 3 3
+Neurons per layer 64, 32 128, 64, 32 128, 64, 32
+Activation ReLU ReLU ReLU
+Dropout rate – – 0.3
+Optimiser Adam Adam Adam
+Learning rate 0.001 0.001 0.001
+Batch size 64 64 64
+Early stopping Yes Yes Yes
+TABLE III
+FIVE-FOLDSTRATIFIEDCROSS-VALIDATIONRESULTS(MEAN±STD)
+Model Acc. Prec. Recall F1 AUC
+Simple ANN .9581 .9607 .9643 .9625 .9932
+±.0069±.0079±.0105±.0063±.0017
+Deep ANN .9652 .9629 .9753 .9689 .9951
+±.0029±.0106±.0141±.0028±.0003
+Dropout ANN .9650 .9630 .9747 .9688 .9948
+±.0047±.0051±.0092±.0043±.0011
+Ensemble .9669 .9648 .9763 .9704 .9954
+±.0028±.0063±.0093±.0026±.0006
+Hybrid (τ=0.8) .9618 .9490.9846.9664 .9951
+±.0053±.0137±.0072±.0043±.0003
+model), confirming the benefit of model fusion. The ensem-
+ble also exhibits the lowest standard deviation across folds
+(±0.0026), indicating superior stability.
+The hybrid override mechanism (τ= 0.8) achieves the high-
+est recall (0.9846) at the cost of reduced precision (0.9490).
+This precision-recall trade-off is by design: the override biases
+predictions toward the phishing class in uncertain regions,
+catching more true phishing sites while introducing a moderate
+increase in false positives. The net effect on F1-score (0.9664)
+is a slight decrease relative to the pure ensemble (0.9704),
+reflecting the trade-off between safety and balance.
+B. Statistical Significance Analysis
+Table IV reports pairwise statistical comparisons between
+the ensemble and each base model.
+The Holm-correctedp-values do not reach conventional sig-
+nificance (α= 0.05), which is expected with onlyk= 5folds
+(maximum achievablep= 0.0625). However, the effect sizes
+are notable: the ensemble-vs-Deep ANN comparison yields
+dz = 2.03, indicating a large and consistent improvement
+direction across folds despite the limited statistical power.
+C. External Dataset Performance (Distribution Shift)
+Table V presents the critical external validation results,
+directly comparing the base ensemble and the proposed hybrid
+system under distribution shift.
+The hybrid mechanism delivers its most significant benefit
+under distribution shift. On the external dataset, the hybrid
+system improves recall by+2.72percentage points (from
+0.8201to0.8473) and F1-score by+1.37percentage points
+
+--- PAGE 6 ---
+TABLE IV
+STATISTICALSIGNIFICANCE OFENSEMBLE VS. BASEMODELS
+(F1-SCORE)
+Comparison∆F1d z p(Holm)
+Ensemble vs. Deep ANN +0.0015 2.03 0.250
+Ensemble vs. Dropout ANN +0.0017 0.43 0.563
+Ensemble vs. Simple ANN +0.0080 0.98 0.375
+Ensemble vs. Hybrid +0.0041 0.91 0.375
+TABLE V
+BASEENSEMBLE VS. PROPOSEDHYBRID ONEXTERNALDATASET
+(NEXT = 2,456)
+Method Acc. Prec. Recall F1 AUC
+Base Ensemble 0.8783 0.9539 0.8201 0.8820 0.9568
+Proposed Hybrid 0.89050.94980.8473 0.89560.9568
+∆(H−B) +0.0122−0.0041+0.0272+0.0137 0.0000
+(from0.8820to0.8956). Crucially, ROC-AUC remains iden-
+tical (0.9568), confirming that the override does not distort
+the underlying probability model—it only modifies the final
+discrete prediction for low-confidence samples.
+The44rule overrides applied on the external dataset rep-
+resent1.79%of total predictions. This selective activation
+demonstrates the conservative design of the hybrid mecha-
+nism: it intervenes rarely but effectively, precisely targeting
+the samples most affected by distribution shift.
+D. Per-Model External Performance
+Table VI reports individual model performance on the
+external dataset, providing insight into ensemble diversity.
+An interesting pattern emerges: the Simple ANN suffers
+severe recall degradation (0.5345) under distribution shift,
+while the Deep and Dropout ANNs maintain substantially
+higher recall (∼0.84). This heterogeneous degradation pattern
+validates the ensemble approach—the soft-voting fusion com-
+pensates for individual model weaknesses, though the Simple
+ANN’s poor external recall drags down the ensemble average.
+E. Calibration Analysis
+Probability calibration was evaluated using Platt scaling
+and isotonic regression on a held-out calibration set (N cal =
+1,769). Table VII summarises the results.
+The calibration analysis reveals that the uncalibrated en-
+semble probabilities are already well-calibrated (Brier score
+= 0.0246), with isotonic regression providing marginally
+equivalent performance. This finding validates the use of
+raw ensemble probabilities for confidence thresholding in the
+hybrid decision layer.
+VI. DISCUSSION
+A. Key Findings
+The experimental results support three principal findings.
+First, the soft-voting neural ensemble provides consistent
+improvements over individual models, with reduced variance
+TABLE VI
+INDIVIDUALMODELPERFORMANCE ONEXTERNALDATASET
+Model Acc. Prec. Recall F1 AUC
+Simple ANN 0.7309 0.9642 0.5345 0.6878 0.9425
+Deep ANN 0.8876 0.9451 0.8465 0.8931 0.9614
+Dropout ANN 0.8864 0.9479 0.8414 0.8915 0.9629
+Ensemble0.8783 0.9539 0.8201 0.8820 0.9568
+TABLE VII
+PROBABILITYCALIBRATIONRESULTS ONINTERNALTESTSET
+Method F1 AUC Brier
+Uncalibrated 0.9718 0.9958 0.0246
+Platt scaling 0.9718 0.9958 0.0255
+Isotonic regression 0.9718 0.99550.0246
+across cross-validation folds, confirming that model diver-
+sity—achieved through architectural variation and regulari-
+sation differences—translates to meaningful ensemble gains.
+Second, the confidence-aware hybrid mechanism provides its
+greatest benefit precisely where it is most needed: under
+distribution shift. On in-distribution data, the hybrid override
+slightly reduces F1-score due to the precision-recall trade-off;
+however, on the external dataset, it delivers a net improvement
+across accuracy, recall, and F1-score. Third, the selective acti-
+vation of rule overrides (44out of2,456external predictions,
+or1.79%) demonstrates that the confidence threshold effec-
+tively gates the rule engine, preventing excessive interference
+with high-confidence model predictions.
+B. Practical Implications
+For deployment in security-critical environments, the hybrid
+mode offers an important safety margin. In phishing detection,
+false negatives (missed phishing sites) are typically more
+costly than false positives (legitimate sites flagged for review).
+The hybrid mechanism’s emphasis on recall improvement
+aligns with this asymmetric cost structure. Organisations can
+select between ensemble mode (balanced performance) and
+hybrid mode (safety-first operation) based on their risk toler-
+ance.
+The lightweight API deployment architecture enables inte-
+gration into diverse operational contexts: browser extensions
+for end-user protection, email gateway filtering for enterprise
+security, SOC triage workflows for threat analysis, and DNS-
+level blocking for network-wide protection.
+C. Limitations
+Several limitations should be acknowledged. First, the
+ternary feature encoding ({−1,0,1}) discretises continuous
+signals, potentially losing discriminative information. Future
+work could explore continuous feature representations. Sec-
+ond, the rule engine comprises only four heuristic rules; while
+these are well-established in the literature, a more compre-
+hensive rule set or learned rule discovery mechanism could
+improve override effectiveness. Third, the confidence threshold
+τ= 0.8was selected empirically; a principled threshold
+
+--- PAGE 7 ---
+selection method (e.g., based on expected calibration error
+or cost-sensitive optimisation) would strengthen the approach.
+Fourth, the external evaluation uses a single external dataset;
+validation on multiple diverse datasets from different time
+periods would provide stronger evidence of generalisation.
+Fifth, the statistical significance analysis is limited by the small
+number of cross-validation folds (k= 5).
+D. Comparison with State-of-the-Art
+Direct numerical comparison with prior work is constrained
+by differences in datasets, feature sets, and evaluation pro-
+tocols. However, the proposed system’s internal F1-score
+(0.9704) and ROC-AUC (0.9954) are competitive with recent
+results reported by Zhouet al.[6] and Bariket al.[18].
+Crucially, the proposed system’s explicit external validation
+and confidence-aware override mechanism address aspects that
+most prior work does not evaluate.
+VII. CONCLUSION ANDFUTUREWORK
+This paper presented a confidence-aware hybrid ensemble
+framework for phishing website detection that addresses the
+dual challenges of achieving high in-distribution accuracy and
+maintaining robustness under distribution shift. The proposed
+system integrates three neural network classifiers via soft-
+voting ensemble prediction and augments the ensemble with
+a confidence-aware rule-based override mechanism that selec-
+tively intervenes when model confidence is low.
+Experimental evaluation demonstrated that the ensemble
+achieves an F1-score of0.9704and ROC-AUC of0.9954
+under five-fold cross-validation on the internal dataset. Under
+distribution shift, the hybrid mechanism improves recall by
++2.72percentage points and F1-score by+1.37percentage
+points on an external dataset of2,456samples, with only
+1.79%of predictions requiring rule override. The system
+is packaged as a deployment-ready pipeline supporting both
+batch and API-based inference.
+Future research directions include: (i)temporal drift adap-
+tation—incorporating online learning or periodic recalibration
+to handle evolving phishing campaigns over time; (ii)au-
+tomated rule discovery—using interpretable ML techniques
+(e.g., LIME, SHAP) to generate data-driven rules that com-
+plement expert-defined heuristics; (iii)richer confidence esti-
+mation—exploring Bayesian neural networks or Monte Carlo
+dropout for uncertainty quantification; (iv)multi-dataset eval-
+uation—validating on temporally separated datasets from mul-
+tiple phishing campaign waves; and (v)continuous online cal-
+ibration—implementing calibration monitoring and adaptation
+in the deployed system.
+ACKNOWLEDGEMENTS
+The authors thank the anonymous reviewers for their con-
+structive feedback.
+REFERENCES
+[1] J. Zhang, Q. Li, X. Wang, B. Feng, and D. Guo, “A high-accuracy
+phishing website detection method based on machine learning,”Journal
+of Information Security and Applications, vol. 76, p. 103553, 2023.
+[2] M. Rashid, J. Kamruzzaman, T. Imam, S. Wibowo, and S. Gordon,
+“Phishing URL detection generalisation using unsupervised domain
+adaptation,”Computer Networks, vol. 245, p. 110398, 2024.
+[3] D. Komosny and J. Tethal, “Phishing detection on webpages in European
+non-English languages based on machine learning,”Scientific Reports,
+vol. 15, p. 6218, 2025.
+[4] F. Duarte, J. Cunha, and C. Salgado, “Machine learning for early
+detection of phishing URLs in parked domains: An approach applied
+to a financial institution,”IEEE Access, vol. 13, pp. 1–14, 2025.
+[5] S. Kehkashan, R. A. Khan, and M. Ahmad, “Explainable phishing web-
+site detection for secure and sustainable cyber infrastructure,”Scientific
+Reports, vol. 15, p. 7654, 2025.
+[6] Y . Zhou, J. Li, and X. Wang, “EnLeM: Ensemble learning-based model
+to detect phishing websites,”EURASIP Journal on Information Security,
+vol. 2025, no. 1, pp. 1–15, 2025.
+[7] I. Haq, J. Hussain, and R. Amin, “Detecting phishing URLs based on
+a deep learning approach to prevent cyber-attacks,”Applied Sciences,
+vol. 14, no. 22, p. 10086, 2024.
+[8] N. Aslam, I. U. Khan, F. S. Alotaibi, L. A. Aldaej, and A. K.
+Aldubaikil, “AntiPhishStack: LSTM-based stacked generalization model
+for optimized phishing URL detection,”Symmetry, vol. 16, no. 2, p. 248,
+2024.
+[9] L. He, X. Xu, and R. Ran, “A method for detecting phishing websites
+based on Tiny-BERT stacking,”IEEE Internet of Things Journal, vol. 11,
+no. 2, pp. 2590–2601, 2024.
+[10] Y . Su, “BERT-based approaches to identifying malicious URLs,”Sen-
+sors, vol. 23, no. 20, p. 8499, 2023.
+[11] K. R. Remya and D. Ramesh, “BGL-PhishNet: Phishing website detec-
+tion using hybrid model—BERT, GNN, and LightGBM,”IEEE Access,
+vol. 13, pp. 12 345–12 358, 2025.
+[12] N. Nagy, M. Aly, A. Elawady, and K. M. Sallam, “Phishing URLs
+detection using sequential and parallel ML techniques: Comparative
+analysis,”Sensors, vol. 23, no. 7, p. 3467, 2023.
+[13] A. Reyes-Dorta, L. Hern ´andez- ´Alvarez, and L. Hern´andez-Encinas, “De-
+tection of malicious URLs using machine learning,”Wireless Networks,
+vol. 30, no. 6, pp. 5513–5530, 2024.
+[14] A. Prasad and S. Chandra, “PhiUSIIL: A diverse security profile em-
+powered phishing URL detection framework based on similarity index
+and incremental learning,”Computers & Security, vol. 131, p. 103545,
+2023.
+[15] I. Kustiawan, F.-Y . Leu, and R. F. Sari, “Feature engineering for phishing
+website detection using machine learning: A systematic review,”IEEE
+Access, vol. 13, pp. 1–22, 2025.
+[16] L. He, X. Xu, R. Ran, and J. Wang, “On phishing URL detection using
+feature extension,”IEEE Internet of Things Journal, vol. 11, no. 22, pp.
+36 682–36 694, 2024.
+[17] A. Zaimi, M. Ouaissa, M. Ouaissa, and M. Krichen, “A deep learning
+mechanism to detect phishing URLs using the permutation importance
+method and SMOTE-Tomek link,”The Journal of Supercomputing,
+vol. 80, no. 14, pp. 20 706–20 732, 2024.
+[18] K. Barik, S. Misra, and K. Konar, “Web-based phishing URL detec-
+tion model using deep learning optimization techniques,”International
+Journal of Data Science and Analytics, vol. 2025, pp. 1–18, 2025.
+[19] M. Bourigue, W. El-Hajj, and A. Chehab, “Improving online security: A
+deep learning model for phishing URL detection,”Cluster Computing,
+vol. 28, pp. 1–16, 2025.
+[20] H. Kibriya, R. Rafique, W. Ahmad, and A. Adnan, “Lightweight mali-
+cious URL detection using deep learning and large language models,”
+Scientific Reports, vol. 15, p. 8324, 2025.
+[21] T. N. Huynh and V . T. Nguyen, “A semantic-aware approach to phishing
+URL detection,”Engineering, Technology & Applied Science Research,
+vol. 15, no. 3, pp. 22 124–22 130, 2025.
+[22] Y . Zhou, R. Jing, and H. Wang, “Detection and classification of phishing
+websites using machine learning approach taking advantage of meta-
+heuristic algorithms efficiency,”Journal of Cyber Security Technology,
+vol. 9, no. 2, pp. 1–25, 2025.
+[23] M. Turk and G. Bilgin, “Malicious URL detection with advanced
+machine learning and optimization-supported deep learning models,”
+Applied Sciences, vol. 15, no. 18, p. 10090, 2025.
+
+--- PAGE 8 ---
+[24] G. K. Alorvor, F. A. Katsriku, and J.-D. Abdulai, “Real-time phishing
+detection for brand protection using temporal convolutional network-
+driven URL sequence modeling,”Electronics, vol. 14, no. 18, p. 3746,
+2025.
+[25] T. Zhou, J. Liu, and Y . Chen, “A malicious URL detection framework
+based on custom hybrid spatial sequence attention and logic constraint
+neural network,”Symmetry, vol. 17, no. 7, p. 987, 2025.
+[26] R. Dandotiya, R. Gupta, and A. K. Yadav, “Real time identification
+of phishing attacks through machine learning enhanced browser exten-
+sions,”Scientific Reports, vol. 16, p. 5321, 2026.
+[27] S. Gobinath and S. Ganapathy, “Deep learning-based phishing classifi-
+cation framework for accurate detection using optimized URL intelli-
+gence,”Scientific Reports, vol. 16, p. 11892, 2026.

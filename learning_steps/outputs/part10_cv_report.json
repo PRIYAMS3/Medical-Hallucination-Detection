@@ -1,0 +1,74 @@
+{
+  "dataset_path": "C:\\Users\\PRIYAMVADA NAMBIAR\\Downloads\\output.csv",
+  "n_splits": 5,
+  "hybrid_threshold": 0.8,
+  "summary_sorted_by_f1": [
+    {
+      "model": "ensemble_softvote",
+      "accuracy_mean": 0.9668928086838534,
+      "accuracy_std": 0.002813628406150323,
+      "precision_mean": 0.9647650371441314,
+      "precision_std": 0.006280162946021703,
+      "recall_mean": 0.9762882832033929,
+      "recall_std": 0.009279764657503074,
+      "f1_mean": 0.9704467389465575,
+      "f1_std": 0.0026359280789124704,
+      "roc_auc_mean": 0.9953707252968547,
+      "roc_auc_std": 0.000632043680488183
+    },
+    {
+      "model": "deep_ann",
+      "accuracy_mean": 0.9651741293532339,
+      "accuracy_std": 0.0028604953959008683,
+      "precision_mean": 0.9628560603735616,
+      "precision_std": 0.010638127228318353,
+      "recall_mean": 0.9753129384831253,
+      "recall_std": 0.014060354928010424,
+      "f1_mean": 0.9689231155280099,
+      "f1_std": 0.0027681263410293455,
+      "roc_auc_mean": 0.9951485382270017,
+      "roc_auc_std": 0.0002537207834017207
+    },
+    {
+      "model": "dropout_style_ann",
+      "accuracy_mean": 0.9649932157394844,
+      "accuracy_std": 0.0047392806503590386,
+      "precision_mean": 0.9629686357107221,
+      "precision_std": 0.005121599759176171,
+      "recall_mean": 0.9746645109561438,
+      "recall_std": 0.009187406186795847,
+      "f1_mean": 0.9687512983154702,
+      "f1_std": 0.004330990504013187,
+      "roc_auc_mean": 0.994820756176338,
+      "roc_auc_std": 0.0011348782693943549
+    },
+    {
+      "model": "hybrid_override_t0.8",
+      "accuracy_mean": 0.9618272274988693,
+      "accuracy_std": 0.005260901320161105,
+      "precision_mean": 0.9490466908707296,
+      "precision_std": 0.013661296126624275,
+      "recall_mean": 0.9845706689735934,
+      "recall_std": 0.0072405697392964674,
+      "f1_mean": 0.9663960457718229,
+      "f1_std": 0.004330243298764611,
+      "roc_auc_mean": 0.9951485382270017,
+      "roc_auc_std": 0.0002537207834017207
+    },
+    {
+      "model": "simple_ann",
+      "accuracy_mean": 0.9581184984170058,
+      "accuracy_std": 0.006937807108546466,
+      "precision_mean": 0.9607354896691154,
+      "precision_std": 0.00788337696444709,
+      "recall_mean": 0.9642648780950974,
+      "recall_std": 0.010460282153644128,
+      "f1_mean": 0.9624589981426874,
+      "f1_std": 0.006286741117975767,
+      "roc_auc_mean": 0.9932268665534302,
+      "roc_auc_std": 0.0017476561154879766
+    }
+  ],
+  "best_model_by_f1": "ensemble_softvote",
+  "note": "This is 5-fold CV on the provided dataset only. No external data mixed."
+}

@@ -1,0 +1,24 @@
+project:
+  name: "AI-Powered Warehouse Inventory Optimization System"
+  random_state: 42
+
+paths:
+  sales_data: "C:/Users/PRIYAMVADA NAMBIAR/Downloads/sales_train_validation.csv"
+  calendar_data: "C:/Users/PRIYAMVADA NAMBIAR/Downloads/calendar.csv"
+  model_output: "models/model_v1.pkl"
+  sample_processed_data: "data/sample_processed_dataset.csv"
+  training_summary: "logs/training_summary.json"
+  evaluation_summary: "logs/evaluation_summary.json"
+  error_analysis: "logs/error_analysis.csv"
+  app_log: "logs/app.log"
+
+data:
+  max_items: 400
+  history_days: 365
+  forecast_horizon_days: 7
+  stock_cover_days: 21
+  reorder_cover_days: 7
+
+training:
+  train_ratio: 0.70
+  validation_ratio: 0.15

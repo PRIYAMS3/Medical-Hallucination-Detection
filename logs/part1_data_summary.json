@@ -1,0 +1,51 @@
+{
+  "long_frame_rows": 146000,
+  "long_frame_columns": 25,
+  "model_dataset_rows": 132000,
+  "model_dataset_columns": 42,
+  "feature_count": 29,
+  "feature_columns": [
+    "item_id",
+    "dept_id",
+    "cat_id",
+    "store_id",
+    "state_id",
+    "wm_yr_wk",
+    "wday",
+    "month",
+    "year",
+    "snap_flag",
+    "is_weekend",
+    "event_name_1",
+    "event_type_1",
+    "event_name_2",
+    "event_type_2",
+    "cost_price",
+    "selling_price",
+    "gross_margin",
+    "lag_1",
+    "lag_7",
+    "lag_28",
+    "rolling_mean_7",
+    "rolling_mean_28",
+    "rolling_std_28",
+    "sales_momentum",
+    "stock_level",
+    "reorder_level",
+    "inventory_gap",
+    "inventory_turnover_proxy"
+  ],
+  "stockout_class_distribution": {
+    "0": 129412,
+    "1": 2588
+  },
+  "movement_class_distribution": {
+    "dead_stock": 65624,
+    "slow_moving": 55503,
+    "fast_moving": 10873
+  },
+  "future_7_day_demand_min": 0.0,
+  "future_7_day_demand_max": 669.0,
+  "missing_values_total": 0,
+  "preprocessor": "ColumnTransformer(transformers=[('numeric',\n                                 Pipeline(steps=[('imputer',\n                                                  SimpleImputer(strategy='median')),\n                                                 ('scaler', StandardScaler())]),\n                                 ['wm_yr_wk', 'wday', 'month', 'year',\n                                  'snap_flag', 'is_weekend', 'cost_price',\n                                  'selling_price', 'gross_margin', 'lag_1',\n                                  'lag_7', 'lag_28', 'rolling_mean_7',\n                                  'rolling_mean_28', 'rolling_std_28',\n                                  'sales_momentum', 'stock_level',\n                                  'reorder_level', 'inventory_gap',\n                                  'inventory_turnover_proxy']),\n                                ('categorical',\n                                 Pipeline(steps=[('imputer',\n                                                  SimpleImputer(strategy='most_frequent')),\n                                                 ('encoder',\n                                                  OneHotEncoder(handle_unknown='ignore'))]),\n                                 ['item_id', 'dept_id', 'cat_id', 'store_id',\n                                  'state_id', 'event_name_1', 'event_type_1',\n                                  'event_name_2', 'event_type_2'])])"
+}

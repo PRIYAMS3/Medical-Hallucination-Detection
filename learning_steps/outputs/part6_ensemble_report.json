@@ -1,0 +1,98 @@
+{
+  "dataset_path": "C:\\Users\\PRIYAMVADA NAMBIAR\\Downloads\\output.csv",
+  "train_shape": [
+    8844,
+    30
+  ],
+  "test_shape": [
+    2211,
+    30
+  ],
+  "members": [
+    "part3_simple_ann",
+    "part4_deep_ann",
+    "part5_dropout_style_ann"
+  ],
+  "individual_metrics": {
+    "part3_simple_ann": {
+      "accuracy": 0.9629127091813658,
+      "precision": 0.9484777517564403,
+      "recall": 0.9870024370430545,
+      "f1_score": 0.9673566878980892,
+      "roc_auc": 0.9950463369750825,
+      "confusion_matrix": [
+        [
+          914,
+          66
+        ],
+        [
+          16,
+          1215
+        ]
+      ],
+      "iterations_used": 41,
+      "final_loss": 0.053758653334465625
+    },
+    "part4_deep_ann": {
+      "accuracy": 0.9733152419719584,
+      "precision": 0.9621451104100947,
+      "recall": 0.9910641754670999,
+      "f1_score": 0.9763905562224889,
+      "roc_auc": 0.9960393905734511,
+      "confusion_matrix": [
+        [
+          932,
+          48
+        ],
+        [
+          11,
+          1220
+        ]
+      ],
+      "iterations_used": 34,
+      "final_loss": 0.036881542335453654
+    },
+    "part5_dropout_style_ann": {
+      "accuracy": 0.9687924016282226,
+      "precision": 0.9625796178343949,
+      "recall": 0.9821283509341998,
+      "f1_score": 0.9722557297949336,
+      "roc_auc": 0.9961338881612759,
+      "confusion_matrix": [
+        [
+          933,
+          47
+        ],
+        [
+          22,
+          1209
+        ]
+      ],
+      "iterations_used": 30,
+      "final_loss": 0.04795775475384106
+    }
+  },
+  "ensemble_metrics": {
+    "accuracy": 0.9696969696969697,
+    "precision": 0.9604430379746836,
+    "recall": 0.9861900893582454,
+    "f1_score": 0.9731462925851703,
+    "roc_auc": 0.996793713423631,
+    "confusion_matrix": [
+      [
+        930,
+        50
+      ],
+      [
+        17,
+        1214
+      ]
+    ]
+  },
+  "comparison": {
+    "best_single_model": "part4_deep_ann",
+    "best_single_f1": 0.9763905562224889,
+    "ensemble_f1": 0.9731462925851703,
+    "ensemble_minus_best_single_f1": -0.0032442636373186673
+  }
+}

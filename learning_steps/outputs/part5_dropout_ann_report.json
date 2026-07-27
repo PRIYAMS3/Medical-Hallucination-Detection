@@ -1,0 +1,70 @@
+{
+  "dataset_path": "C:\\Users\\PRIYAMVADA NAMBIAR\\Downloads\\output.csv",
+  "train_shape": [
+    8844,
+    30
+  ],
+  "test_shape": [
+    2211,
+    30
+  ],
+  "model": "DropoutStyleANN_MLPClassifier",
+  "hyperparameters": {
+    "hidden_layer_sizes": [
+      128,
+      64,
+      32
+    ],
+    "batch_size": 64,
+    "learning_rate_init": 0.001,
+    "max_iter": 260,
+    "early_stopping": true,
+    "alpha": 0.0015
+  },
+  "metrics": {
+    "accuracy": 0.9687924016282226,
+    "precision": 0.9625796178343949,
+    "recall": 0.9821283509341998,
+    "f1_score": 0.9722557297949336,
+    "roc_auc": 0.9961338881612759,
+    "confusion_matrix": [
+      [
+        933,
+        47
+      ],
+      [
+        22,
+        1209
+      ]
+    ],
+    "iterations_used": 30,
+    "final_loss": 0.04795775475384106
+  },
+  "classification_report_text": "              precision    recall  f1-score   support\n\n           0     0.9770    0.9520    0.9643       980\n           1     0.9626    0.9821    0.9723      1231\n\n    accuracy                         0.9688      2211\n   macro avg     0.9698    0.9671    0.9683      2211\nweighted avg     0.9690    0.9688    0.9687      2211\n",
+  "mini_comparison_table": [
+    {
+      "model": "part3_simple_ann",
+      "accuracy": 0.9629,
+      "precision": 0.9485,
+      "recall": 0.987,
+      "f1_score": 0.9674,
+      "roc_auc": 0.995
+    },
+    {
+      "model": "part4_deep_ann",
+      "accuracy": 0.9733,
+      "precision": 0.9621,
+      "recall": 0.9911,
+      "f1_score": 0.9764,
+      "roc_auc": 0.996
+    },
+    {
+      "model": "part5_dropout_style_ann",
+      "accuracy": 0.9688,
+      "precision": 0.9626,
+      "recall": 0.9821,
+      "f1_score": 0.9723,
+      "roc_auc": 0.9961
+    }
+  ]
+}
