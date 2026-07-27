@@ -1,9 +1,25 @@
 seed: 42
 
 dataset:
-  name: medical_hallucination_detection
+  name: UTAustin-AIHealth/MedHallu
+  subset: pqa_labeled
+  split: train
   raw_data_dir: data/raw
   processed_data_dir: data/processed
+  processed_file_name: medhallu_pqa_labeled_train.csv
+  required_columns:
+    - Question
+    - Knowledge
+    - Ground Truth
+    - Difficulty Level
+    - Hallucinated Answer
+    - Category of Hallucination
+  question_column: Question
+  answer_columns:
+    - Ground Truth
+    - Hallucinated Answer
+  label_column: Difficulty Level
+  hallucination_type_column: Category of Hallucination
 
 models:
   baseline: roberta-base
@@ -26,6 +42,7 @@ paths:
   outputs_dir: outputs
   model_dir: models
   logs_dir: outputs/logs
+  dataset_report: outputs/dataset_report.md
   checkpoints_dir: outputs/checkpoints
   metrics_dir: outputs/metrics
   figures_dir: outputs/figures
@@ -35,4 +52,3 @@ logging:
   file_name: training.log
   format: "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
   date_format: "%Y-%m-%d %H:%M:%S"
-
